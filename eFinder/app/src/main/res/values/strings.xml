@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">eFinder</string>
+    <string name="title_map">Map</string>
+    <string name="title_search">Search</string>
+    <string name="title_favorites">Favorites</string>
+    <string name="title_admin">Admin</string>
+    <string name="title_preference">Preference</string>
+</resources>
