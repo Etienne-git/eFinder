@@ -3,7 +3,13 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Etienne/AndroidStudioProjects/eFinder/app/src/main/res/drawable/assignment.xml" value="0.1" />
+        <entry key="..\:/Users/Etienne/AndroidStudioProjects/eFinder/app/src/main/res/drawable/bar_color.xml" value="0.1" />
         <entry key="..\:/Users/Etienne/AndroidStudioProjects/eFinder/app/src/main/res/drawable/ic_notifications_black_24dp.xml" value="0.19583333333333333" />
+        <entry key="..\:/Users/Etienne/AndroidStudioProjects/eFinder/app/src/main/res/drawable/location_on.xml" value="0.1" />
+        <entry key="..\:/Users/Etienne/AndroidStudioProjects/eFinder/app/src/main/res/drawable/search.xml" value="0.1" />
+        <entry key="..\:/Users/Etienne/AndroidStudioProjects/eFinder/app/src/main/res/drawable/settings.xml" value="0.1" />
+        <entry key="..\:/Users/Etienne/AndroidStudioProjects/eFinder/app/src/main/res/drawable/star.xml" value="0.1" />
         <entry key="..\:/Users/Etienne/AndroidStudioProjects/eFinder/app/src/main/res/layout/activity_main.xml" value="0.16666666666666666" />
         <entry key="..\:/Users/Etienne/AndroidStudioProjects/eFinder/app/src/main/res/layout/fragment_admin.xml" value="0.1" />
         <entry key="..\:/Users/Etienne/AndroidStudioProjects/eFinder/app/src/main/res/layout/fragment_dashboard.xml" value="0.1" />
