@@ -11,6 +11,7 @@ public class PreferenceViewModel extends ViewModel {
     public PreferenceViewModel() {
         mText = new MutableLiveData<>();
         mText.setValue("This is preference fragment");
+
     }
 
     public LiveData<String> getText() {
