@@ -25,4 +25,5 @@
     <string name="minimum_password">Passwort muss mindestens 6 Zeichen lang sein!</string>
     <string name="auth_failed">Authentifizierung fehlgeschlagen. Überprüfe Email und Passwort!</string>
     <string name="btn_sign_out">Sign Out</string>
+    <string name="title_activity_maps">MapsActivity</string>
 </resources>
