@@ -46,6 +46,13 @@ public class PreferenceFragment extends Fragment  {
                 textView.setText(s);
             }
         });
+        final Button btnSignOut = root.findViewById(R.id.sign_out);
+        btnSignOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((MainActivity)getActivity()).signOut();
+            }
+        });
 
         return root;
     }

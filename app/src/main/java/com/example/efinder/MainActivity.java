@@ -29,16 +29,6 @@ private FirebaseAuth auth = FirebaseAuth.getInstance();
 
         setContentView(binding.getRoot());
 
-        final Button btnSignOut = findViewById(R.id.sign_out);
-
-        btnSignOut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                signOut();
-            }
-
-        });
-
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each

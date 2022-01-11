@@ -6,13 +6,11 @@ import java.util.Vector;
 
 public class User {
 
-    public int getUserID() {
+    public String getUserID() {
         return userID;
     }
 
-    public void setUserID(int id) {
-        userID = id;
-    }
+    public void setUserID(String id) { userID = id; }
 
     public String getEmail() {
         return eMail;
@@ -20,7 +18,7 @@ public class User {
 
     public void setEmail(String eMail) { this.eMail = eMail; }
 
-    private int userID;
+    private String userID;
     private String eMail;
     Vector<Charger> favourites = new Vector<>();
 
