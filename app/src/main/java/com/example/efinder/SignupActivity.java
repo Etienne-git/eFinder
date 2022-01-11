@@ -15,6 +15,11 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class SignupActivity extends AppCompatActivity {
 
@@ -89,6 +94,12 @@ public class SignupActivity extends AppCompatActivity {
                                     Toast.makeText(SignupActivity.this, "Authentication failed." + task.getException(),
                                             Toast.LENGTH_SHORT).show();
                                 } else {
+                                    String userID = auth.getCurrentUser().getUid();
+                                    String email = inputEmail.getText().toString();
+                                    DatabaseReference currentUserDb = FirebaseDatabase.getInstance().getReference().child("users").child(userID);
+                                    Map userInfo = new HashMap();
+                                    userInfo.put("email", email);
+                                    currentUserDb.setValue(userInfo);
                                     startActivity(new Intent(SignupActivity.this, MainActivity.class));
                                     finish();
                                 }
