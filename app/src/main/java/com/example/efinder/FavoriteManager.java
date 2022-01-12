@@ -7,7 +7,8 @@ public class FavoriteManager {
     /**
      * Main container for stations (static to get data from all activities / fragments).
      */
-    private static ArrayList<ChargingStation> station_storage;
+    private static ArrayList<ChargingStation> station_storage = new ArrayList<>(
+    );
 
     /**
      * Setter for container.

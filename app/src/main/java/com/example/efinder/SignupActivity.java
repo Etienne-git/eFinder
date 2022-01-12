@@ -96,9 +96,9 @@ public class SignupActivity extends AppCompatActivity {
                                 } else {
                                     String userID = auth.getCurrentUser().getUid();
                                     String email = inputEmail.getText().toString();
-                                    DatabaseReference currentUserDb = FirebaseDatabase.getInstance("https://efinder-1640105181864-default-rtdb.europe-west1.firebasedatabase.app/").getReference().child("users").child(userID);
-                                    Map userInfo = new HashMap();
-                                    userInfo.put("email", email);
+                                    DatabaseReference currentUserDb = FirebaseDatabase.getInstance("https://efinder-1640105181864-default-rtdb.europe-west1.firebasedatabase.app/").getReference().child("users");
+                                    Map<String, User> userInfo = new HashMap<>();
+                                    userInfo.put(userID, new User(email));
                                     currentUserDb.setValue(userInfo);
                                     startActivity(new Intent(SignupActivity.this, MainActivity.class));
                                     finish();

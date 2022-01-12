@@ -58,9 +58,6 @@ public class SearchFragment extends Fragment {
         View root = binding.getRoot();
 
 
-        //Workaround fuer haesslichen sign out button
-        Button sign_out = getActivity().findViewById(R.id.sign_out);
-        sign_out.setVisibility(View.GONE);
 
 
         /*
