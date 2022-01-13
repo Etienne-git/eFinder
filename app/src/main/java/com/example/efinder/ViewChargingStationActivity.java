@@ -42,6 +42,8 @@ public class ViewChargingStationActivity extends AppCompatActivity implements On
     ListView descriptionList;
     Button addfavorite;
     GoogleMap mGoogleMap;
+    String id;
+    ArrayList<ChargingStation> favoriteStations = new ArrayList<>();
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -71,8 +73,13 @@ public class ViewChargingStationActivity extends AppCompatActivity implements On
         addfavorite = findViewById(R.id.addfavorite);
         detailsList = findViewById(R.id.details_list);
         descriptionList = findViewById(R.id.description_list);
+        id = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        final FirebaseDatabase database = FirebaseDatabase.getInstance("https://efinder-1640105181864-default-rtdb.europe-west1.firebasedatabase.app/");
+        DatabaseReference ref = database.getReference().child("users").child(id).child("favorites");
 
         Intent intent = getIntent();
+
+        getFavoriteStations(ref);
 
 
         // Get the SupportMapFragment and request notification when the map is ready to be used.
@@ -183,15 +190,29 @@ public class ViewChargingStationActivity extends AppCompatActivity implements On
 
                 System.out.println("Folgend Ladestation wurde gefunden: ");
                 System.out.println(chargingStations.get(chargingStationID).getLocation());
-
                 favoriteStations.add(chargingStations.get(chargingStationID-1));
-                FavoriteManager.setStation_list(favoriteStations);
-
+                ref.setValue(favoriteStations);
 
             }
         });
 
     }
+    private void getFavoriteStations(DatabaseReference ref) {
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                favoriteStations.clear();
+                for (DataSnapshot postSnapshot: snapshot.getChildren()) {
+                    ChargingStation station = postSnapshot.getValue(ChargingStation.class);
+                    favoriteStations.add(station);
+                }
+            }
 
-
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                System.out.println("The read failed");
+            }
+        });
+    }
 }
+
