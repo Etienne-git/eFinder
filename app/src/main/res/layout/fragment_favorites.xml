@@ -5,13 +5,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/main_blue"
     tools:context=".ui.favorites.FavoritesFragment" >
 
 
     <ListView
         android:id="@+id/favorite_listview"
         android:layout_width="match_parent"
+        android:textColor="@color/textGrey"
         android:layout_height="match_parent"/>
 
-
+    <TextView
+        android:id="@+id/list_content_fav"
+        android:textColor="@color/textGrey"
+        android:gravity="center"
+        android:layout_margin="4dip"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        />
 </LinearLayout>
