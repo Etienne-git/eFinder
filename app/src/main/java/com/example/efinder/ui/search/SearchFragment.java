@@ -58,23 +58,6 @@ public class SearchFragment extends Fragment {
         View root = binding.getRoot();
 
 
-        //Workaround fuer haesslichen sign out button
-        Button sign_out = getActivity().findViewById(R.id.sign_out);
-        sign_out.setVisibility(View.GONE);
-
-
-        /*
-        final TextView textView = binding.textSearch;
-        searchViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });
-        */
-
-
-
         return root;
     }
 
@@ -135,63 +118,6 @@ public class SearchFragment extends Fragment {
 
 
 
-
-
-
-        /*
-        download.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-
-
-                String search_value = editText.getText().toString();
-                String search_criteria = dropdown_menu.getSelectedItem().toString();
-                ArrayList<String> search_result = new ArrayList<>();
-
-                System.out.println("User sucht nach: ");
-                System.out.println(search_value);
-                System.out.println(search_criteria);
-
-                if(search_value.isEmpty()){
-                    Toast.makeText(getActivity(), "Enter your query first !", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-
-
-                switch(search_criteria) {
-                    case "Ort":
-
-                        System.out.println("Case Ort wurde aufgerufen!!");
-                        for(int i = 0; i < chargingStations.size(); i++){
-                            System.out.print("Vergleiche:");
-                            System.out.println(chargingStations.get(i).getLocation());
-                            System.out.println("mit");
-                            System.out.println(search_value);
-                            if(chargingStations.get(i).getLocation() == search_value){
-                                System.out.println("Passendes Ergebnis gefunden!");
-                                String chargingStationOverview =
-                                        chargingStations.get(i).getLocation()
-                                                + chargingStations.get(i).getStreet()
-                                                +  "  "
-                                                + chargingStations.get(i).getNumber()
-                                                + "\n" + chargingStations.get(i).getOperator();
-
-                                search_result.add(chargingStationOverview);
-                            }
-                        }
-
-
-                }
-
-                ArrayAdapter arrayAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, search_result);
-                listView.setAdapter(arrayAdapter);
-
-
-            }
-        });
-
-         */
 
     }
 
