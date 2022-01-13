@@ -166,8 +166,8 @@ public class ViewChargingStationActivity extends AppCompatActivity implements On
         detailsArray.add(installation_date);
 
 
-        ArrayAdapter<String> detailsAdapter = new ArrayAdapter<String>(ViewChargingStationActivity.this, android.R.layout.simple_list_item_1, detailsArray);
-        ArrayAdapter<String> descriptionAdapter = new ArrayAdapter<String>(ViewChargingStationActivity.this, android.R.layout.simple_list_item_1, descriptionArray);
+        ArrayAdapter<String> detailsAdapter = new ArrayAdapter<String>(ViewChargingStationActivity.this, R.layout.custom_text_view, detailsArray);
+        ArrayAdapter<String> descriptionAdapter = new ArrayAdapter<String>(ViewChargingStationActivity.this, R.layout.custom_text_view, descriptionArray);
         detailsList.setAdapter(detailsAdapter);
         descriptionList.setAdapter(descriptionAdapter);
 

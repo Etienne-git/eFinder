@@ -90,7 +90,7 @@ public class SearchFragment extends Fragment {
             chargingStationList.add(chargingStationOverview);
         }
 
-        ArrayAdapter arrayAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, chargingStationList);
+        ArrayAdapter arrayAdapter = new ArrayAdapter(getActivity(), R.layout.custom_text_view, chargingStationList);
         listView.setAdapter(arrayAdapter);
 
         //Show single ChargingStation if User selects it
