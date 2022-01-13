@@ -27,6 +27,13 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 
 public class ViewChargingStationActivity extends AppCompatActivity implements OnMapReadyCallback {
@@ -165,7 +172,6 @@ public class ViewChargingStationActivity extends AppCompatActivity implements On
 
 
                 ArrayList<ChargingStation> chargingStations = StationManager.getStation_list();
-                ArrayList<ChargingStation> favoriteStations = FavoriteManager.getStation_list();
 
                 int chargingStationID = Integer.valueOf(intent.getStringExtra("id").toString());
 

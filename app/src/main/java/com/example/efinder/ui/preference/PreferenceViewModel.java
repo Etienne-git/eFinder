@@ -10,7 +10,7 @@ public class PreferenceViewModel extends ViewModel {
 
     public PreferenceViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is preference fragment");
+        mText.setValue("");
     }
 
     public LiveData<String> getText() {

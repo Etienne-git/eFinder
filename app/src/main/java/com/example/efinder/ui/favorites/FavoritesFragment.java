@@ -28,7 +28,7 @@ public class FavoritesFragment extends Fragment {
 
     private FavoritesViewModel favoritesViewModel;
     private ListView favorite_listView;
-private FragmentFavoritesBinding binding;
+    private FragmentFavoritesBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
             ViewGroup container, Bundle savedInstanceState) {
