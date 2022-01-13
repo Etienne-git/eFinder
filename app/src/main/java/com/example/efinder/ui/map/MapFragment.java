@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
+import android.location.Location;
 import android.location.LocationManager;
 import android.location.LocationRequest;
 import android.os.Bundle;
@@ -46,6 +47,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.Task;
+import com.google.maps.android.SphericalUtil;
 
 import java.util.ArrayList;
 
@@ -133,25 +135,49 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         mGoogleMap = googleMap;
         ArrayList<ChargingStation> chargingStations =  StationManager.getStation_list();
 
+        LatLng home = new LatLng(49.873187637553286, 8.641962680299816);
+
+
 
         for(int i = 0; i < chargingStations.size(); i++){
             double lat = chargingStations.get(i).getLat();
             double lon = chargingStations.get(i).getLon();
 
+
+
             LatLng chargingStation = new LatLng(lat, lon);
 
-            String address = "Ladesäule "
-                    + chargingStations.get(i).getLocation()
-                    + "  "
-                    + chargingStations.get(i).getState()
-                    + "  "
-                    + chargingStations.get(i).getStreet()
-                    + " "
-                    + chargingStations.get(i).getNumber();
+            SphericalUtil.computeDistanceBetween(chargingStation, home);
 
-            mGoogleMap.addMarker(new MarkerOptions().position(chargingStation).title(address));
+
+            //Check if chargingStation is less than 50km away from home
+            Location selected_location = new Location("home");
+            selected_location.setLatitude(49.873187637553286);
+            selected_location.setLongitude(8.641962680299816);
+
+            Location near_locations = new Location("ChargingStation");
+            near_locations.setLatitude(lat);
+            near_locations.setLongitude(lon);
+
+            double distance = selected_location.distanceTo(near_locations);
+
+            if(distance < 50){
+                String address = "Ladesäule "
+                        + chargingStations.get(i).getLocation()
+                        + "  "
+                        + chargingStations.get(i).getState()
+                        + "  "
+                        + chargingStations.get(i).getStreet()
+                        + " "
+                        + chargingStations.get(i).getNumber();
+
+                mGoogleMap.addMarker(new MarkerOptions().position(chargingStation).title(address));
+            }
+
 
         }
+
+
 
 
 
