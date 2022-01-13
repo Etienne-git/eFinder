@@ -7,6 +7,7 @@
     tools:context=".ViewChargingStationActivity">
 
 
+
     <Button
         android:id="@+id/addfavorite"
         android:layout_width="match_parent"
@@ -42,6 +43,8 @@
         android:layout_height="334dp"
         android:layout_below="@id/details"
         android:layout_marginTop="15dp" />
+
+
 
 
 
