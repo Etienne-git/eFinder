@@ -1,7 +1,5 @@
 package com.example.efinder;
 
-import com.example.efinder.Charger;
-
 import java.util.Vector;
 
 public class User {
@@ -20,6 +18,6 @@ public class User {
 
     private String userID;
     private String eMail;
-    Vector<Charger> favourites = new Vector<>();
+    Vector<ChargingStation> favourites = new Vector<>();
 
 }
