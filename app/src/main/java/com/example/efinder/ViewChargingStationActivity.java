@@ -74,7 +74,7 @@ public class ViewChargingStationActivity extends AppCompatActivity implements On
         detailsList = findViewById(R.id.details_list);
         descriptionList = findViewById(R.id.description_list);
         id = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        final FirebaseDatabase database = FirebaseDatabase.getInstance("https://efinder-1640105181864-default-rtdb.europe-west1.firebasedatabase.app/");
+        final FirebaseDatabase database = FirebaseDatabase.getInstance(getResources().getString(R.string.firebase_link));
         DatabaseReference ref = database.getReference().child("users").child(id).child("favorites");
 
         Intent intent = getIntent();

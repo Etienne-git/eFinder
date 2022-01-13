@@ -2,6 +2,7 @@ package com.example.efinder.ui.favorites;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,11 +18,19 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.efinder.ChargingStation;
 import com.example.efinder.FavoriteManager;
+import com.example.efinder.MainActivity;
 import com.example.efinder.R;
 import com.example.efinder.StationManager;
 import com.example.efinder.ViewChargingStationActivity;
 import com.example.efinder.databinding.FragmentFavoritesBinding;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import java.io.Console;
 import java.util.ArrayList;
 
 public class FavoritesFragment extends Fragment {
@@ -29,14 +38,18 @@ public class FavoritesFragment extends Fragment {
     private FavoritesViewModel favoritesViewModel;
     private ListView favorite_listView;
     private FragmentFavoritesBinding binding;
+    private ArrayList<ChargingStation> chargingStations = new ArrayList<>();
 
     public View onCreateView(@NonNull LayoutInflater inflater,
-            ViewGroup container, Bundle savedInstanceState) {
+                             ViewGroup container, Bundle savedInstanceState) {
         favoritesViewModel =
                 new ViewModelProvider(this).get(FavoritesViewModel.class);
 
-    binding = FragmentFavoritesBinding.inflate(inflater, container, false);
-    View root = binding.getRoot();
+        chargingStations = ((MainActivity)getActivity()).favoriteStations;
+
+        binding = FragmentFavoritesBinding.inflate(inflater, container, false);
+        View root = binding.getRoot();
+
 
         /*
         final TextView textView = binding.textFavorites;
@@ -49,8 +62,6 @@ public class FavoritesFragment extends Fragment {
         */
 
 
-
-
         return root;
     }
 
@@ -58,21 +69,22 @@ public class FavoritesFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+
         favorite_listView = (ListView) getView().findViewById(R.id.favorite_listview);
         //ArrayList<ChargingStation> chargingStations = DownloadService.getStations();
-        ArrayList<ChargingStation> chargingStations = FavoriteManager.getStation_list();
         ArrayList<String> chargingStationList = new ArrayList();
 
-        if(chargingStations != null){
+
+        if (chargingStations != null) {
             //Create Array for ListView
-            for(int i = 0; i < chargingStations.size(); i++){
+            for (int i = 0; i < chargingStations.size(); i++) {
 
                 String chargingStationOverview =
                         chargingStations.get(i).getId()
                                 + " "
                                 + chargingStations.get(i).getLocation()
                                 + chargingStations.get(i).getStreet()
-                                +  "  "
+                                + "  "
                                 + chargingStations.get(i).getNumber()
                                 + "\n" + chargingStations.get(i).getOperator();
 
@@ -83,7 +95,7 @@ public class FavoritesFragment extends Fragment {
             favorite_listView.setAdapter(arrayAdapter);
 
             //Show single ChargingStation if User selects it
-            favorite_listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            favorite_listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Intent intent = new Intent(getActivity().getApplicationContext(), ViewChargingStationActivity.class);
@@ -92,8 +104,6 @@ public class FavoritesFragment extends Fragment {
                 }
             });
         }
-
-
 
 
     }

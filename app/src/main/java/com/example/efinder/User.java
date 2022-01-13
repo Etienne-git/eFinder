@@ -1,11 +1,22 @@
 package com.example.efinder;
 
-import java.util.Vector;
+import androidx.annotation.NonNull;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 public class User {
 
     public User(String mail){
         eMail = mail;
+        database = FirebaseDatabase.getInstance("https://efinder-1640105181864-default-rtdb.europe-west1.firebasedatabase.app");
+        id = FirebaseAuth.getInstance().getCurrentUser().getUid();
     }
 
     public String getEmail() {
@@ -15,8 +26,12 @@ public class User {
     public void setEmail(String eMail) { this.eMail = eMail; }
 
 
+
     private String eMail;
-    private boolean admin = false;
-    FavoriteManager favorites = new FavoriteManager();
+    private boolean isAdmin = false;
+    private static ArrayList<ChargingStation> favorites = new ArrayList<>();
+    private final FirebaseDatabase database;
+    private DatabaseReference currentUserDb;
+    private String id;
 
 }
