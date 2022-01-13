@@ -1,21 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout  xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ViewChargingStationActivity">
 
-    <TextView
-        android:id="@+id/chargingstation_id"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+
 
     <Button
         android:id="@+id/addfavorite"
-        android:src="@android:drawable/btn_star"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        />
+        android:layout_weight="1"
+        android:text="Add Favorite" />
 
-</LinearLayout>
+    <LinearLayout
+        android:id="@+id/details"
+        android:layout_width="match_parent"
+        android:layout_height="335dp"
+        android:layout_below="@id/addfavorite">
+
+        <fragment
+            android:id="@+id/map"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="208dp"
+            android:layout_height="335dp"
+            tools:context="com.example.efinder.ViewChargingStationActivity" />
+
+        <ListView
+            android:id="@+id/description_list"
+            android:layout_width="199dp"
+            android:layout_height="338dp"
+            android:layout_marginTop="-2dp" />
+
+    </LinearLayout>
+
+
+    <ListView
+        android:id="@+id/details_list"
+        android:layout_width="match_parent"
+        android:layout_height="334dp"
+        android:layout_below="@id/details"
+        android:layout_marginTop="15dp" />
+
+
+
+
+
+
+
+
+</RelativeLayout>

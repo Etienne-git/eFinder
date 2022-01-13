@@ -33,7 +33,7 @@
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.13722826086956522" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1644021739130435" />
         <entry key="app/src/main/res/layout/activity_maps.xml" value="0.13722826086956522" />
-        <entry key="app/src/main/res/layout/activity_view_charging_station.xml" value="0.1644021739130435" />
+        <entry key="app/src/main/res/layout/activity_view_charging_station.xml" value="0.22" />
         <entry key="app/src/main/res/layout/fragment_admin.xml" value="0.16614583333333333" />
         <entry key="app/src/main/res/layout/fragment_favorites.xml" value="0.15489130434782608" />
         <entry key="app/src/main/res/layout/fragment_map.xml" value="0.15489130434782608" />
