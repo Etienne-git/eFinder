@@ -1,24 +1,14 @@
 package com.example.efinder;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.AttributeSet;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
-import androidx.fragment.app.FragmentManager;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -40,10 +30,14 @@ public class ViewChargingStationActivity extends AppCompatActivity implements On
 
     ListView detailsList;
     ListView descriptionList;
-    Button addfavorite;
+    Button addFavorite;
+    Button addDefect;
     GoogleMap mGoogleMap;
     String id;
     ArrayList<ChargingStation> favoriteStations = new ArrayList<>();
+    ArrayList<ChargingStation> defectStations = new ArrayList<>();
+    ArrayList<ChargingStation> chargingStations = new ArrayList<>();
+
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -69,17 +63,20 @@ public class ViewChargingStationActivity extends AppCompatActivity implements On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        chargingStations = StationManager.getStation_list();
         setContentView(R.layout.activity_view_charging_station);
-        addfavorite = findViewById(R.id.addfavorite);
+        addFavorite = findViewById(R.id.addFavorite);
+        addDefect = findViewById(R.id.addDefect);
         detailsList = findViewById(R.id.details_list);
         descriptionList = findViewById(R.id.description_list);
         id = FirebaseAuth.getInstance().getCurrentUser().getUid();
         final FirebaseDatabase database = FirebaseDatabase.getInstance(getResources().getString(R.string.firebase_link));
-        DatabaseReference ref = database.getReference().child("users").child(id).child("favorites");
+        DatabaseReference favoritesRef = database.getReference().child("users").child(id).child("favorites");
+        DatabaseReference defectRef = database.getReference().child("defectStations");
 
         Intent intent = getIntent();
 
-        getFavoriteStations(ref);
+        getFavoriteStations(favoritesRef);
 
 
         // Get the SupportMapFragment and request notification when the map is ready to be used.
@@ -173,12 +170,10 @@ public class ViewChargingStationActivity extends AppCompatActivity implements On
 
 
 
-        addfavorite.setOnClickListener(new View.OnClickListener(){
+        addFavorite.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
 
-
-                ArrayList<ChargingStation> chargingStations = StationManager.getStation_list();
 
                 int chargingStationID = Integer.valueOf(intent.getStringExtra("id").toString());
 
@@ -191,7 +186,17 @@ public class ViewChargingStationActivity extends AppCompatActivity implements On
                 System.out.println("Folgend Ladestation wurde gefunden: ");
                 System.out.println(chargingStations.get(chargingStationID).getLocation());
                 favoriteStations.add(chargingStations.get(chargingStationID-1));
-                ref.setValue(favoriteStations);
+                favoritesRef.setValue(favoriteStations);
+
+            }
+        });
+
+        addDefect.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                int chargingStationID = Integer.valueOf(intent.getStringExtra("id").toString());
+                defectStations.add(chargingStations.get(chargingStationID-1));
+                defectRef.setValue(defectStations);
 
             }
         });
@@ -205,6 +210,23 @@ public class ViewChargingStationActivity extends AppCompatActivity implements On
                 for (DataSnapshot postSnapshot: snapshot.getChildren()) {
                     ChargingStation station = postSnapshot.getValue(ChargingStation.class);
                     favoriteStations.add(station);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                System.out.println("The read failed");
+            }
+        });
+    }
+    private void getDefectStations(DatabaseReference ref) {
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                defectStations.clear();
+                for (DataSnapshot postSnapshot: snapshot.getChildren()) {
+                    ChargingStation station = postSnapshot.getValue(ChargingStation.class);
+                    defectStations.add(station);
                 }
             }
 

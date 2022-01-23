@@ -31,4 +31,6 @@
     <string name="OFF">AUS</string>
     <string name="text_admin_rights">Berechtigt zur Nutzung der Administratorfunktionen</string>
     <string name="firebase_link">https://efinder-1640105181864-default-rtdb.europe-west1.firebasedatabase.app/</string>
+    <string name="addFavorite_string">Zu Favoriten hinzufügen</string>
+    <string name="addDefect_string">Als Defekt melden</string>
 </resources>

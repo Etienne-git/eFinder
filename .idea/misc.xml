@@ -21,15 +21,16 @@
         <entry key="..\:/Users/Etienne/AndroidStudioProjects/eFinder/app/src/main/res/layout/activity_maps.xml" value="0.10729166666666666" />
         <entry key="..\:/Users/Etienne/AndroidStudioProjects/eFinder/app/src/main/res/layout/activity_reset_password.xml" value="0.11911231884057971" />
         <entry key="..\:/Users/Etienne/AndroidStudioProjects/eFinder/app/src/main/res/layout/activity_sign_up.xml" value="0.1" />
-        <entry key="..\:/Users/Etienne/AndroidStudioProjects/eFinder/app/src/main/res/layout/activity_view_charging_station.xml" value="0.11927083333333334" />
+        <entry key="..\:/Users/Etienne/AndroidStudioProjects/eFinder/app/src/main/res/layout/activity_view_charging_station.xml" value="0.1" />
         <entry key="..\:/Users/Etienne/AndroidStudioProjects/eFinder/app/src/main/res/layout/custom_text_view.xml" value="0.11927083333333334" />
-        <entry key="..\:/Users/Etienne/AndroidStudioProjects/eFinder/app/src/main/res/layout/fragment_admin.xml" value="0.1" />
+        <entry key="..\:/Users/Etienne/AndroidStudioProjects/eFinder/app/src/main/res/layout/fragment_admin.xml" value="0.16666666666666666" />
         <entry key="..\:/Users/Etienne/AndroidStudioProjects/eFinder/app/src/main/res/layout/fragment_dashboard.xml" value="0.1" />
         <entry key="..\:/Users/Etienne/AndroidStudioProjects/eFinder/app/src/main/res/layout/fragment_favorites.xml" value="0.1" />
         <entry key="..\:/Users/Etienne/AndroidStudioProjects/eFinder/app/src/main/res/layout/fragment_home.xml" value="0.1" />
         <entry key="..\:/Users/Etienne/AndroidStudioProjects/eFinder/app/src/main/res/layout/fragment_map.xml" value="0.1" />
         <entry key="..\:/Users/Etienne/AndroidStudioProjects/eFinder/app/src/main/res/layout/fragment_preference.xml" value="0.3333333333333333" />
         <entry key="..\:/Users/Etienne/AndroidStudioProjects/eFinder/app/src/main/res/layout/fragment_search.xml" value="0.13020833333333334" />
+        <entry key="..\:/Users/Etienne/AndroidStudioProjects/eFinder/app/src/main/res/layout/list_item.xml" value="0.1" />
         <entry key="..\:/Users/Etienne/AndroidStudioProjects/eFinder/app/src/main/res/menu/bottom_nav_menu.xml" value="0.1796875" />
         <entry key="..\:/Users/Etienne/AndroidStudioProjects/eFinder/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.13240740740740742" />
         <entry key="..\:/Users/Etienne/AndroidStudioProjects/eFinder/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.13240740740740742" />
