@@ -31,6 +31,7 @@ private ActivityMainBinding binding;
 private FirebaseAuth auth = FirebaseAuth.getInstance();
 private String id;
 public ArrayList<ChargingStation> favoriteStations = new ArrayList<>();
+public ArrayList<ChargingStation> defectStations = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +69,7 @@ public ArrayList<ChargingStation> favoriteStations = new ArrayList<>();
         id = FirebaseAuth.getInstance().getCurrentUser().getUid();
         final FirebaseDatabase database = FirebaseDatabase.getInstance(getResources().getString(R.string.firebase_link));
         DatabaseReference currentUserDb = database.getReference().child("users").child(id).child("favorites");
+        DatabaseReference defectStationsDb = database.getReference().child("defectStations");
         currentUserDb.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -75,7 +77,20 @@ public ArrayList<ChargingStation> favoriteStations = new ArrayList<>();
                 for (DataSnapshot postSnapshot : snapshot.getChildren()) {
                     ChargingStation station = postSnapshot.getValue(ChargingStation.class);
                     favoriteStations.add(station);
-                    Log.e("station added", "1");
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                System.out.println("The read failed");
+            }
+        });
+        defectStationsDb.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                defectStations.clear();
+                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                    ChargingStation station = postSnapshot.getValue(ChargingStation.class);
+                    defectStations.add(station);
                 }
             }
             @Override

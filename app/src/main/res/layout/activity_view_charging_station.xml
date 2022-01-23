@@ -1,25 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout  xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/main_blue"
     tools:context=".ViewChargingStationActivity">
 
-
-
-    <Button
-        android:id="@+id/addfavorite"
+    <RelativeLayout
+        android:id="@+id/addButtons"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="Add Favorite" />
+        android:layout_height="100dp">
+
+        <Button
+            android:id="@+id/addFavorite"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/addFavorite_string"
+            android:textSize="11sp" />
+
+        <Button
+            android:id="@+id/addDefect"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/addFavorite"
+            android:layout_weight="1"
+            android:text="@string/addDefect_string"
+            android:textSize="11sp" />
+
+    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/details"
         android:layout_width="match_parent"
         android:layout_height="335dp"
-        android:layout_below="@id/addfavorite">
+        android:layout_below="@id/addButtons">
 
         <fragment
             android:id="@+id/map"
