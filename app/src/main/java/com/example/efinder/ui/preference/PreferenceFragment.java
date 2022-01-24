@@ -26,6 +26,7 @@ public class PreferenceFragment extends Fragment  {
     private PreferenceViewModel preferenceViewModel;
     private FragmentPreferenceBinding binding;
     private String id;
+    private boolean admin;
 
 
 
@@ -36,14 +37,17 @@ public class PreferenceFragment extends Fragment  {
         id = FirebaseAuth.getInstance().getCurrentUser().getUid();
         final FirebaseDatabase database = FirebaseDatabase.getInstance("https://efinder-1640105181864-default-rtdb.europe-west1.firebasedatabase.app/");
         DatabaseReference currentUserDb = database.getReference().child("users").child(id).child("admin");
-
+        admin = ((MainActivity)getActivity()).adminRights;
 
         View view = inflater.inflate(R.layout.fragment_preference, container, false);
 
         binding = FragmentPreferenceBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+        Switch admin_switch = (Switch) root.findViewById(R.id.admin_rights);
 
+        if(!admin)
+            admin_switch.setChecked(false);
 
         final TextView textView = binding.textPreference;
         preferenceViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
@@ -52,7 +56,6 @@ public class PreferenceFragment extends Fragment  {
                 textView.setText(s);
             }
         });
-        Switch admin_switch = (Switch) root.findViewById(R.id.admin_rights);
         changeAdminRights(admin_switch, currentUserDb);
         final Button btnSignOut = root.findViewById(R.id.sign_out);
         UserSignOut(btnSignOut);
