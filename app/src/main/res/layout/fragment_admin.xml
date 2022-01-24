@@ -1,16 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-android:background="@color/main_blue"
-tools:context=".ui.admin.AdminFragment"
-android:orientation="horizontal">
-
-<androidx.recyclerview.widget.RecyclerView
-    android:id="@+id/repair_recyclerView"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:textColor="@color/textGrey"
-    android:layout_height="match_parent"/>
-</LinearLayout>
+    android:layout_height="wrap_content"
+    android:background="@color/main_blue"
+    android:orientation="vertical"
+    tools:context=".ui.admin.AdminFragment">
+
+    <RelativeLayout
+        android:id="@+id/defect_stations_layout"
+        android:layout_width="match_parent"
+        android:layout_height="335dp"
+        android:layout_below="@id/access_denied">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/repair_recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:textColor="@color/textGrey" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/access_denied"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_weight="1"
+            android:textColor="#BA3253"
+            android:text="@string/admin_access_denied"
+            app:drawableStartCompat="@drawable/access_denied_icon" />
+        
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/comment_send"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/defect_stations_layout"
+        android:gravity="bottom|center"
+        android:layout_alignParentBottom="true">
+
+        <Button
+            android:id="@+id/btn_report_defect"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="70dp"
+            android:gravity="center"
+            android:background="@drawable/rounded_corners"
+            android:textColor="@android:color/white"
+            android:text="@string/report_repair"
+            android:textSize="16sp"/>
+    </RelativeLayout>
+
+</RelativeLayout>

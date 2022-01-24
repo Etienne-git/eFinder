@@ -77,6 +77,7 @@ public class ViewChargingStationActivity extends AppCompatActivity implements On
         Intent intent = getIntent();
 
         getFavoriteStations(favoritesRef);
+        getDefectStations(defectRef);
 
 
         // Get the SupportMapFragment and request notification when the map is ready to be used.
