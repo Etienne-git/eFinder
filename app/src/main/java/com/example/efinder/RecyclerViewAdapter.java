@@ -1,11 +1,13 @@
 package com.example.efinder;
 
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -16,10 +18,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     //All methods in this adapter are required for a bare minimum recyclerview adapter
     private int listItemLayout;
     private ArrayList<String> itemList;
+    private static int pos;
+    private static boolean clicked = false;
+    public static RecyclerViewClickListener itemListener;
     // Constructor of the class
-    public RecyclerViewAdapter(int layoutId, ArrayList<String> itemList) {
+    public RecyclerViewAdapter(int layoutId, RecyclerViewClickListener itemListener,  ArrayList<String> itemList) {
         listItemLayout = layoutId;
         this.itemList = itemList;
+        this.itemListener = itemListener;
     }
 
     // get the size of the list
@@ -54,7 +60,17 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         }
         @Override
         public void onClick(View view) {
-            Log.d("onclick", "onClick " + getLayoutPosition() + " " + item.getText());
+            clicked = !clicked;
+            if(clicked){
+                item.setBackgroundColor(Color.parseColor("#A6D785"));
+            }
+            else{
+                item.setBackgroundColor(Color.parseColor("#DCEEF2"));
+            }
+            itemListener.recyclerViewListClicked(view,this.getLayoutPosition());
         }
+    }
+    public interface RecyclerViewClickListener{
+        public void recyclerViewListClicked(View v, int position);
     }
 }

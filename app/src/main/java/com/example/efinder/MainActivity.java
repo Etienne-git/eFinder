@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
 private ActivityMainBinding binding;
 private FirebaseAuth auth = FirebaseAuth.getInstance();
 private String id;
+public boolean adminRights;
 public ArrayList<ChargingStation> favoriteStations = new ArrayList<>();
 public ArrayList<ChargingStation> defectStations = new ArrayList<>();
 
@@ -69,7 +70,19 @@ public ArrayList<ChargingStation> defectStations = new ArrayList<>();
         id = FirebaseAuth.getInstance().getCurrentUser().getUid();
         final FirebaseDatabase database = FirebaseDatabase.getInstance(getResources().getString(R.string.firebase_link));
         DatabaseReference currentUserDb = database.getReference().child("users").child(id).child("favorites");
+        DatabaseReference adminRightsDb = database.getReference().child("users").child(id).child("admin");
         DatabaseReference defectStationsDb = database.getReference().child("defectStations");
+
+        adminRightsDb.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    adminRights = (boolean) snapshot.getValue();
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                System.out.println("The read failed");
+            }
+        });
         currentUserDb.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
