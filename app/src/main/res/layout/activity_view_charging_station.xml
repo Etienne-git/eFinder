@@ -19,14 +19,28 @@
             android:text="@string/addFavorite_string"
             android:textSize="11sp" />
 
-        <Button
-            android:id="@+id/addDefect"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/addFavorite"
+            android:orientation="horizontal"
+            android:layout_below="@+id/addFavorite">
+        <Button
+            android:id="@+id/addDefect"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/addDefect_string"
             android:textSize="11sp" />
+
+
+        <Button
+            android:id="@+id/useStation"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Nutze diese Station"
+            android:textSize="11sp" />
+        </LinearLayout>
 
     </RelativeLayout>
 

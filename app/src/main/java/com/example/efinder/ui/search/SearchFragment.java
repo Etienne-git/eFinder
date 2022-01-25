@@ -40,14 +40,28 @@ import com.example.efinder.databinding.FragmentSearchBinding;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
+
+
+
 public class SearchFragment extends Fragment {
 
     private SearchViewModel searchViewModel;
     private FragmentSearchBinding binding;
     private ListView listView;
     private EditText editText;
-    private Spinner dropdown_menu;
+    private EditText ortInput ,stromstaerkeInput;
+    Spinner statusInput;
+    private Button searchBtn;
+    public ArrayList<String> chargingStationList;
+    public ArrayList<ChargingStation> chargingStationsResult;
+    ArrayList<ChargingStation> chargingStations;
 
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        instance = this;
+    }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -67,13 +81,23 @@ public class SearchFragment extends Fragment {
 
 
 
-        editText = (EditText) getView().findViewById(R.id.input);
+
         listView = (ListView) getView().findViewById(R.id.listview);
-        dropdown_menu = (Spinner) getView().findViewById(R.id.dropdown_menu);
+
+        statusInput = getView().findViewById(R.id.statusInput);
+        stromstaerkeInput = getView().findViewById(R.id.StromstärkeInput);
+        ortInput = getView().findViewById(R.id.ortInput);
+
+
+        //Add Choices to spinner
+        String[] arraySpinnner = new String[]{"ja", "nein"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, arraySpinnner);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        statusInput.setAdapter(adapter);
 
         //ArrayList<ChargingStation> chargingStations = DownloadService.getStations();
-        ArrayList<ChargingStation> chargingStations = StationManager.getStation_list();
-        ArrayList<String> chargingStationList = new ArrayList();
+        chargingStations = StationManager.getStation_list();
+        chargingStationList = new ArrayList();
 
         //Create Array for ListView
         for(int i = 0; i < chargingStations.size(); i++){
@@ -98,24 +122,125 @@ public class SearchFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getActivity().getApplicationContext(), ViewChargingStationActivity.class);
-                intent.putExtra("id", chargingStationList.get(position).split(" ")[0]);
+                System.out.println("Position: " + Integer.toString(position));
+                intent.putExtra("id", Integer.toString(position));
+                //intent.putExtra("id", chargingStationList.get(position).split(" ")[0]);
                 startActivity(intent);
             }
         });
 
 
-        ArrayList<String> searchCriteria = new ArrayList();
-        searchCriteria.add("Ort");
 
-        ArrayAdapter<String> Dropdownadapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, searchCriteria);
-        Dropdownadapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
-        dropdown_menu.setAdapter(Dropdownadapter);
 
-        Button b;
-        Button download;
-        download = getView().findViewById(R.id.search);
-        Log.d("Debug:", "Download Button was pressed");
+        searchBtn = getView().findViewById(R.id.search);
 
+        searchBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Toast.makeText(getActivity().getApplicationContext(), "Starte Suche...", Toast.LENGTH_SHORT).show();
+                chargingStations = StationManager.getStation_list();
+                ArrayList<ChargingStation> results = new ArrayList<ChargingStation>();
+                ArrayList<String> displayResults = new ArrayList<String>();
+                Boolean resultsNotEmpty = false;
+                String ort = ortInput.getText().toString();
+                results.clear();
+
+                boolean is_used = false;
+                String status = statusInput.getSelectedItem().toString();
+                System.out.println("Status: " + status);
+                if(status == "ja"){
+                    is_used = true;
+                }
+                String stromstaerke = stromstaerkeInput.getText().toString();
+
+                System.out.println("Ausgewählt: " + is_used);
+
+
+                if (ort.matches("") && status.matches("") && stromstaerke.matches("")) {
+                    Toast.makeText(getActivity(), "Bitte Auswahl treffen", Toast.LENGTH_SHORT).show();
+                }
+
+                //Wenn Ort angegeben
+                if (!ort.matches("")) {
+                    System.out.println("Ort wurde ausgefüllt");
+                    System.out.println("Anzahl: " + chargingStations.size());
+                    for (int i = 0; i < chargingStations.size(); i++) {
+                        System.out.println("Vergleiche: " + chargingStations.get(i).getLocation().replace(" ", "") + "   " + ort  + " und " + chargingStations.get(i).isIs_used() + " mit " + is_used);
+                        if (chargingStations.get(i).getLocation().replace(" ", "").equals(ort.replace(" ", "")) && chargingStations.get(i).isIs_used() == is_used) {
+                            System.out.println("Fuege Ladesäule hinzu");
+                            System.out.println(chargingStations.get(i).getLocation());
+                            results.add(chargingStations.get(i));
+                        }
+                    }
+                    resultsNotEmpty = true;
+                }else {
+                    System.out.println("Ort wurde nicht ausgefüllt");
+
+                    for (int i = 0; i < chargingStations.size(); i++) {
+                        System.out.println("Vergleiche: " + chargingStations.get(i).getLocation().replace(" ", "") + "   " + ort);
+                        if (chargingStations.get(i).isIs_used() == is_used) {
+                            System.out.println("Fuege Ladesäule hinzu");
+                            System.out.println(chargingStations.get(i).getLocation());
+                            results.add(chargingStations.get(i));
+                        }
+                    }
+                    resultsNotEmpty = true;
+                }
+
+                if(!stromstaerke.matches("") && resultsNotEmpty == false){
+                    for (int i = 0; i < chargingStations.size(); i++) {
+                        System.out.println("Vergleiche: " + chargingStations.get(i).getLocation().replace(" ", "") + "   " + ort);
+                        if (chargingStations.get(i).getConn_power() == Double.parseDouble(stromstaerke)) {
+                            System.out.println("Fuege Ladesäule hinzu");
+                            System.out.println(chargingStations.get(i).getLocation());
+                            results.add(chargingStations.get(i));
+                        }
+                    }
+                    resultsNotEmpty = true;
+                }
+                else if(!stromstaerke.matches("") && resultsNotEmpty == true){
+                    for (int i = 0; i < results.size(); i++) {
+                        System.out.println("Vergleiche: " + results.get(i).getLocation().replace(" ", "") + "   " + ort);
+                        if (results.get(i).getConn_power() != Double.parseDouble(stromstaerke)) {
+                            System.out.println("Fuege Ladesäule hinzu");
+                            System.out.println(results.get(i).getLocation());
+                            results.remove(i);
+                        }
+                    }
+                    resultsNotEmpty = true;
+                }
+
+
+                    if(resultsNotEmpty){
+                        chargingStations = results;
+                    }
+
+
+                    for(int i = 0; i < results.size(); i++){
+                        String chargingStationOverview =
+                                results.get(i).getId()
+                                        + " "
+                                        + results.get(i).getLocation()
+                                        + results.get(i).getStreet()
+                                        +  "  "
+                                        + results.get(i).getNumber()
+                                        + "\n" + results.get(i).getOperator();
+
+                        displayResults.add(chargingStationOverview);
+                    }
+
+                    ArrayAdapter arrayAdapter = new ArrayAdapter(getActivity(), R.layout.custom_text_view, displayResults);
+                    listView.setAdapter(arrayAdapter);
+                    System.out.println("Ergebnis: " + results.size());
+                    Toast.makeText(getActivity().getApplicationContext(), "Suche beendet", Toast.LENGTH_SHORT).show();
+
+                    System.out.println("++++++++++++++++Debug++++++++++++++++");
+                    for(int i = 0; i < results.size(); i++){
+                        System.out.println(results.get(i).getLocation());
+                    }
+                }
+        });
 
 
     }
@@ -124,6 +249,18 @@ public class SearchFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+
+    public ArrayList<ChargingStation> getChargingStations() {
+        return this.chargingStations;
+    }
+
+
+    private static SearchFragment instance = null;
+
+    public static SearchFragment getInstance(){
+        return instance;
     }
 
 

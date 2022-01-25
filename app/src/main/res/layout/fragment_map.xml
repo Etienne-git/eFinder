@@ -1,4 +1,4 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:map="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:name="com.google.android.gms.maps.SupportMapFragment"
@@ -8,11 +8,89 @@
 
 
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:id="@+id/mainLayout">
+
+            <RelativeLayout
+                android:layout_width="300dp"
+                android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <SeekBar
+            android:id="@+id/seekBar"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:progress="10"
+            android:max="100"
+            android:layout_below="@+id/textView"/>
+                <Button
+                    android:id="@+id/searchBtn"
+                    android:text="Suche im Radius"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/seekBar"
+                    android:layout_marginBottom="10dp"/>
+
+                <EditText
+                    android:id="@+id/latitudeBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:layout_marginTop="200dp"
+                    android:hint="Latitude"
+                    android:padding="8dp"
+                    android:layout_below="@+id/searchBtn"/>
+
+                <EditText
+                    android:id="@+id/longitudeBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:layout_marginTop="200dp"
+                    android:hint="Longitude"
+                    android:padding="8dp"
+                    android:layout_below="@+id/latitudeBtn"/>
+
+                <Button
+                    android:id="@+id/changeLocationBtn"
+                    android:text="Change location"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_below="@+id/longitudeBtn"/>
+
+
+            </RelativeLayout>
+
+
+            <Button
+                android:id="@+id/focusBtn"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="30dp"
+                android:layout_below="@+id/closeBtn"
+                />
+
+        </LinearLayout>
+
+
+
+
+
     <FrameLayout
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.exaple.efinder.MapsActivity" />
+        android:layout_marginBottom="55dp"
+        tools:context="com.example.efinder.MapsActivity"
+        android:layout_below="@+id/mainLayout"/>
 
-</FrameLayout>
+</RelativeLayout>
