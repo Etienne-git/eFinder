@@ -2,6 +2,7 @@ package com.example.efinder;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,7 +10,9 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import com.example.efinder.ui.search.SearchFragment;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -34,6 +37,7 @@ public class ViewChargingStationActivity extends AppCompatActivity implements On
     Button addDefect;
     GoogleMap mGoogleMap;
     String id;
+    Button useStationBtn;
     ArrayList<ChargingStation> favoriteStations = new ArrayList<>();
     ArrayList<ChargingStation> defectStations = new ArrayList<>();
     ArrayList<ChargingStation> chargingStations = new ArrayList<>();
@@ -53,6 +57,7 @@ public class ViewChargingStationActivity extends AppCompatActivity implements On
 
         mGoogleMap = googleMap;
 
+        float zoomLevel = 16.0f;
         mGoogleMap.addMarker(new MarkerOptions().position(chargingStationLocation).title("Chargingstation"));
         mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(chargingStationLocation));
 
@@ -69,14 +74,31 @@ public class ViewChargingStationActivity extends AppCompatActivity implements On
         addDefect = findViewById(R.id.addDefect);
         detailsList = findViewById(R.id.details_list);
         descriptionList = findViewById(R.id.description_list);
+        useStationBtn = findViewById(R.id.useStation);
         id = FirebaseAuth.getInstance().getCurrentUser().getUid();
         final FirebaseDatabase database = FirebaseDatabase.getInstance(getResources().getString(R.string.firebase_link));
         DatabaseReference favoritesRef = database.getReference().child("users").child(id).child("favorites");
         DatabaseReference defectRef = database.getReference().child("defectStations");
 
+        ArrayList<ChargingStation> chargingStations = SearchFragment.getInstance().getChargingStations();
         Intent intent = getIntent();
 
         getFavoriteStations(favoritesRef);
+
+
+
+        int chargingStationID = Integer.valueOf(intent.getStringExtra("id").toString());
+        System.out.print("chargingStationID: " + chargingStationID);
+        System.out.print("chargingStationStreet: " + chargingStations.get(chargingStationID).getStreet());
+        System.out.print("chargingStationCity: " + chargingStations.get(chargingStationID).getLocation());
+        boolean chargerIsUsed = chargingStations.get(chargingStationID).isIs_used();
+        System.out.println("Charging is used :  " + chargerIsUsed);
+        if(chargerIsUsed == true){
+            useStationBtn.setText("Station verlassen");
+        }else {
+            useStationBtn.setText("Nutze diese Station");
+        }
+
 
 
         // Get the SupportMapFragment and request notification when the map is ready to be used.
@@ -86,24 +108,45 @@ public class ViewChargingStationActivity extends AppCompatActivity implements On
 
 
 
-        int chargingStationID = Integer.valueOf(intent.getStringExtra("id").toString());
-        ArrayList<ChargingStation> chargingStations = StationManager.getStation_list();
+        //int chargingStationID = Integer.valueOf(intent.getStringExtra("id").toString());
+        //int chargingStationID = Integer.valueOf(intent.getStringExtra("id").toString());
+
+
+        System.out.println("chargingStationID: " + chargingStationID);
+
+
+        //ArrayList<ChargingStation> chargingStations = StationManager.getStation_list();
+
+
         ArrayList<String> descriptionArray = new ArrayList<>();
         ArrayList<String> detailsArray = new ArrayList<>();
 
         //Get all information about chargingStation
+
+        String state = "Bundesland: " + chargingStations.get(chargingStationID).getState();
+        String area = "Landkreis: " + chargingStations.get(chargingStationID).getArea();
         String city = "Ort: " + chargingStations.get(chargingStationID).getLocation();
+        System.out.println(city);
         String street = "Street: " + chargingStations.get(chargingStationID).getStreet();
         String status = "Status: besetzt";
-        String power = "Strom: " + chargingStations.get(chargingStationID).getConn_power();
+        if(chargingStations.get(chargingStationID).isIs_used() == false){
+            status = "Status: nicht besetzt";
+        }
+        String power = "Stromstärke: " + chargingStations.get(chargingStationID).getConn_power();
+        String module_type = "Modultyp: " + chargingStations.get(chargingStationID).getModule_type();
+        String connNumber = "Verbindungsanzahl: " + chargingStations.get(chargingStationID).getNumber_of_connections();
+
+        descriptionArray.add(state);
+        descriptionArray.add(area);
         descriptionArray.add(city);
         descriptionArray.add(street);
         descriptionArray.add(status);
         descriptionArray.add(power);
+        descriptionArray.add(module_type);
+        descriptionArray.add(connNumber);
 
 
-        String module_type = "Modultyp: " + chargingStations.get(chargingStationID).getModule_type();
-        String connNumber = "Verbindungsanzahl: " + chargingStations.get(chargingStationID).getNumber_of_connections();
+
         String installation_date = "Installationsdatum: " + chargingStations.get(chargingStationID).getInstallation_date();
 
         String plugType1 = "Anschlusstyp 1:   ";
@@ -148,18 +191,43 @@ public class ViewChargingStationActivity extends AppCompatActivity implements On
 
 
 
-        detailsArray.add(plugType1);
-        detailsArray.add(plugType2);
-        detailsArray.add(plugType3);
-        detailsArray.add(plugType4);
 
-        detailsArray.add(power1_str);
-        detailsArray.add(power2_str);
-        detailsArray.add(power3_str);
-        detailsArray.add(power4_str);
 
-        detailsArray.add(module_type);
-        detailsArray.add(connNumber);
+
+        System.out.println("Plugtypes1"  + plugTypes3.toString());
+        if(!plugTypes1.toString().equals("Plugtypes1[null]")){
+            detailsArray.add(plugType1);
+        }
+        if(!plugTypes2.toString().equals("Plugtypes2[null]")){
+            detailsArray.add(plugType2);
+        }
+        if(!plugTypes3.toString().equals("Plugtypes3[null]")){
+            detailsArray.add(plugType3);
+        }
+        if(!plugTypes4.toString().equals("Plugtypes4[null]")){
+            detailsArray.add(plugType4);
+        }
+
+
+
+
+
+
+        if(!power1_str.equals("Stromstärke Anschluss 1: 0.0")){
+            detailsArray.add(power1_str);
+        }
+        if(!power2_str.equals("Stromstärke Anschluss 2: 0.0")){
+            detailsArray.add(power2_str);
+        }
+        System.out.println("power3_str: " + power3_str);
+        if(!power3_str.equals("Stromstärke Anschluss 3: 0.0")){
+            detailsArray.add(power3_str);
+        }
+        if(!power4_str.equals("Stromstärke Anschuss 4: 0.0")){
+            detailsArray.add(power4_str);
+        }
+
+
         detailsArray.add(installation_date);
 
 
@@ -197,6 +265,25 @@ public class ViewChargingStationActivity extends AppCompatActivity implements On
                 int chargingStationID = Integer.valueOf(intent.getStringExtra("id").toString());
                 defectStations.add(chargingStations.get(chargingStationID-1));
                 defectRef.setValue(defectStations);
+
+            }
+        });
+
+
+        useStationBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                int chargingStationID = Integer.valueOf(intent.getStringExtra("id").toString());
+                ChargingStation station = chargingStations.get(chargingStationID);
+                if(useStationBtn.getText() == "Station verlassen"){
+                    station.setIs_used(false);
+                    Toast.makeText(getApplicationContext(), "Sie haben die Station verlassen", Toast.LENGTH_SHORT).show();
+                }else {
+                    station.setIs_used(true);
+                    Toast.makeText(getApplicationContext(), "Sie benutzen nun die Station", Toast.LENGTH_SHORT).show();
+                }
+
 
             }
         });
