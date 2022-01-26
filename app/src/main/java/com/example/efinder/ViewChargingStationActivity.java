@@ -82,6 +82,7 @@ public class ViewChargingStationActivity extends AppCompatActivity implements On
         DatabaseReference favoritesRef = database.getReference().child("users").child(id).child("favorites");
         DatabaseReference defectRef = database.getReference().child("defectStations");
 
+        
         ArrayList<ChargingStation> chargingStations = SearchFragment.getInstance().getChargingStations();
         Intent intent = getIntent();
 
@@ -90,15 +91,13 @@ public class ViewChargingStationActivity extends AppCompatActivity implements On
 
 
         int chargingStationID = Integer.valueOf(intent.getStringExtra("id").toString());
-        System.out.print("chargingStationID: " + chargingStationID);
-        System.out.print("chargingStationStreet: " + chargingStations.get(chargingStationID).getStreet());
-        System.out.print("chargingStationCity: " + chargingStations.get(chargingStationID).getLocation());
+
         boolean chargerIsUsed = chargingStations.get(chargingStationID).isIs_used();
-        System.out.println("Charging is used :  " + chargerIsUsed);
+
         if(chargerIsUsed == true){
-            useStationBtn.setText("Station verlassen");
+            useStationBtn.setText(getResources().getString((R.string.leave_station)));
         }else {
-            useStationBtn.setText("Nutze diese Station");
+            useStationBtn.setText(getResources().getString(R.string.use_this_station));
         }
 
 
@@ -125,18 +124,18 @@ public class ViewChargingStationActivity extends AppCompatActivity implements On
 
         //Get all information about chargingStation
 
-        String state = "Bundesland: " + chargingStations.get(chargingStationID).getState();
-        String area = "Landkreis: " + chargingStations.get(chargingStationID).getArea();
-        String city = "Ort: " + chargingStations.get(chargingStationID).getLocation();
+        String state = getResources().getString(R.string.state) + chargingStations.get(chargingStationID).getState();
+        String area = getResources().getString(R.string.district) + chargingStations.get(chargingStationID).getArea();
+        String city = getResources().getString(R.string.station_location) + chargingStations.get(chargingStationID).getLocation();
         System.out.println(city);
-        String street = "Street: " + chargingStations.get(chargingStationID).getStreet();
-        String status = "Status: besetzt";
+        String street = getResources().getString(R.string.street) + chargingStations.get(chargingStationID).getStreet();
+        String status = getResources().getString(R.string.being_used) + getResources().getString(R.string.used);
         if(chargingStations.get(chargingStationID).isIs_used() == false){
-            status = "Status: nicht besetzt";
+            status = getResources().getString(R.string.being_used) + getResources().getString(R.string.not_used);
         }
-        String power = "Stromstärke: " + chargingStations.get(chargingStationID).getConn_power();
-        String module_type = "Modultyp: " + chargingStations.get(chargingStationID).getModule_type();
-        String connNumber = "Verbindungsanzahl: " + chargingStations.get(chargingStationID).getNumber_of_connections();
+        String power =  getResources().getString(R.string.power_station) + chargingStations.get(chargingStationID).getConn_power();
+        String module_type =  getResources().getString(R.string.module_type)+ chargingStations.get(chargingStationID).getModule_type();
+        String connNumber =  getResources().getString(R.string.connection_number) + chargingStations.get(chargingStationID).getNumber_of_connections();
 
         descriptionArray.add(state);
         descriptionArray.add(area);
@@ -149,12 +148,12 @@ public class ViewChargingStationActivity extends AppCompatActivity implements On
 
 
 
-        String installation_date = "Installationsdatum: " + chargingStations.get(chargingStationID).getInstallation_date();
+        String installation_date = getResources().getString(R.string.installation_date) + chargingStations.get(chargingStationID).getInstallation_date();
 
-        String plugType1 = "Anschlusstyp 1:   ";
-        String plugType2 = "Anschlusstyp 2:   ";
-        String plugType3 = "Anschlusstyp 3:   ";
-        String plugType4 = "Anschlusstyp 4:   ";
+        String plugType1 = getResources().getString(R.string.connection_type)  + "1:   ";
+        String plugType2 = getResources().getString(R.string.connection_type)  + "2:   ";
+        String plugType3 = getResources().getString(R.string.connection_type)  + "3:   ";
+        String plugType4 = getResources().getString(R.string.connection_type)  + "4:   ";
 
         ArrayList<PlugType> plugTypes1 = chargingStations.get(chargingStationID).getPlug_types_1();
 
@@ -186,10 +185,10 @@ public class ViewChargingStationActivity extends AppCompatActivity implements On
         double power3 = chargingStations.get(chargingStationID).getPower_3();
         double power4 = chargingStations.get(chargingStationID).getPower_4();
 
-        String power1_str = "Stromstärke: " + Double.toString(power1);
-        String power2_str = "Stromstärke: " + Double.toString(power2);
-        String power3_str = "Stromstärke: " + Double.toString(power3);
-        String power4_str = "Stromstärke: " + Double.toString(power4);
+        String power1_str = getResources().getString(R.string.power)  +  "1:   " + Double.toString(power1);
+        String power2_str = getResources().getString(R.string.power)  +  "2:   " + Double.toString(power2);
+        String power3_str = getResources().getString(R.string.power)  +  "3:   " + Double.toString(power3);
+        String power4_str = getResources().getString(R.string.power)  +  "4:   " + Double.toString(power4);
 
 
 
@@ -275,7 +274,7 @@ public class ViewChargingStationActivity extends AppCompatActivity implements On
 
                 int chargingStationID = Integer.valueOf(intent.getStringExtra("id").toString());
                 ChargingStation station = chargingStations.get(chargingStationID);
-                if(useStationBtn.getText() == "Station verlassen"){
+                if(station.isIs_used() == true){
                     station.setIs_used(false);
                     Toast.makeText(getApplicationContext(), "Sie haben die Station verlassen", Toast.LENGTH_SHORT).show();
                 }else {

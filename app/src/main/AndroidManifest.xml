@@ -44,6 +44,7 @@
         <activity
             android:name=".MainActivity"
             android:exported="true" />
+
         <activity
             android:name=".ResetPasswordActivity"
             android:exported="true" />
