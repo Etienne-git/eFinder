@@ -17,6 +17,7 @@ public class User {
         eMail = mail;
         database = FirebaseDatabase.getInstance("https://efinder-1640105181864-default-rtdb.europe-west1.firebasedatabase.app");
         id = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        isAdmin = false;
     }
 
     public String getEmail() {
@@ -28,7 +29,7 @@ public class User {
 
 
     private String eMail;
-    private boolean isAdmin = false;
+    private boolean isAdmin;
     private static ArrayList<ChargingStation> favorites = new ArrayList<>();
     private final FirebaseDatabase database;
     private DatabaseReference currentUserDb;

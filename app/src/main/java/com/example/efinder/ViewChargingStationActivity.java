@@ -2,7 +2,6 @@ package com.example.efinder;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -33,11 +32,12 @@ public class ViewChargingStationActivity extends AppCompatActivity implements On
 
     ListView detailsList;
     ListView descriptionList;
-    Button addFavorite;
+    Button addOrRemoveFavorite;
     Button addDefect;
     GoogleMap mGoogleMap;
     String id;
     Button useStationBtn;
+    Boolean isFavorite  = false;
     ArrayList<ChargingStation> favoriteStations = new ArrayList<>();
     ArrayList<ChargingStation> defectStations = new ArrayList<>();
     ArrayList<ChargingStation> chargingStations = new ArrayList<>();
@@ -70,7 +70,7 @@ public class ViewChargingStationActivity extends AppCompatActivity implements On
         super.onCreate(savedInstanceState);
         chargingStations = StationManager.getStation_list();
         setContentView(R.layout.activity_view_charging_station);
-        addFavorite = findViewById(R.id.addFavorite);
+        addOrRemoveFavorite = findViewById(R.id.addFavorite);
         addDefect = findViewById(R.id.addDefect);
         detailsList = findViewById(R.id.details_list);
         descriptionList = findViewById(R.id.description_list);
@@ -86,7 +86,13 @@ public class ViewChargingStationActivity extends AppCompatActivity implements On
         getFavoriteStations(favoritesRef);
         getDefectStations(defectRef);
 
-
+        if(!favoriteStations.isEmpty()) {
+            for (int i = 0; i <= favoriteStations.size(); i++)
+                if (favoriteStations.get(i).getId() == Integer.valueOf(intent.getStringExtra("id").toString())) {
+                    addOrRemoveFavorite.setText(getResources().getString(R.string.remove_favorite));
+                    isFavorite = true;
+                }
+        }
 
         int chargingStationID = Integer.valueOf(intent.getStringExtra("id").toString());
         System.out.print("chargingStationID: " + chargingStationID);
@@ -239,24 +245,21 @@ public class ViewChargingStationActivity extends AppCompatActivity implements On
 
 
 
-        addFavorite.setOnClickListener(new View.OnClickListener(){
+        addOrRemoveFavorite.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
 
 
                 int chargingStationID = Integer.valueOf(intent.getStringExtra("id").toString());
-
-
-
-                System.out.println("Folgende Ladestation wurde aufgerufen: ");
-                System.out.println(chargingStationID);
-
-
-                System.out.println("Folgend Ladestation wurde gefunden: ");
-                System.out.println(chargingStations.get(chargingStationID).getLocation());
-                favoriteStations.add(chargingStations.get(chargingStationID-1));
+                if(!isFavorite) {
+                    favoriteStations.add(chargingStations.get(chargingStationID));
+                    addOrRemoveFavorite.setText(getResources().getString(R.string.remove_favorite));
+                }
+                else {
+                    favoriteStations.remove(chargingStations.get(chargingStationID));
+                    addOrRemoveFavorite.setText(getResources().getString(R.string.addFavorite_string));
+                }
                 favoritesRef.setValue(favoriteStations);
-
             }
         });
 
@@ -264,7 +267,7 @@ public class ViewChargingStationActivity extends AppCompatActivity implements On
             @Override
             public void onClick(View v) {
                 int chargingStationID = Integer.valueOf(intent.getStringExtra("id").toString());
-                defectStations.add(chargingStations.get(chargingStationID-1));
+                defectStations.add(chargingStations.get(chargingStationID));
                 defectRef.setValue(defectStations);
 
             }
@@ -284,8 +287,6 @@ public class ViewChargingStationActivity extends AppCompatActivity implements On
                     station.setIs_used(true);
                     Toast.makeText(getApplicationContext(), "Sie benutzen nun die Station", Toast.LENGTH_SHORT).show();
                 }
-
-
             }
         });
 
