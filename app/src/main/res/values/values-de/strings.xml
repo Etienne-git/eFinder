@@ -61,4 +61,5 @@
     <string name="snackbar_used">besetzt</string>
     <string name="snackbar_notused">verfügbar</string>
     <string name="address">"Adresse: "</string>
+    <string name="remove_favorite">Favorit entfernen</string>
 </resources>
