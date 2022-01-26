@@ -80,13 +80,14 @@ public class FavoritesFragment extends Fragment {
             for (int i = 0; i < chargingStations.size(); i++) {
 
                 String chargingStationOverview =
-                        chargingStations.get(i).getId()
+                        "\n"
+                        + getResources().getString(R.string.address)
+                        + chargingStations.get(i).getLocation()
                                 + " "
-                                + chargingStations.get(i).getLocation()
                                 + chargingStations.get(i).getStreet()
-                                + "  "
+                                +  "  "
                                 + chargingStations.get(i).getNumber()
-                                + "\n" + chargingStations.get(i).getOperator();
+                                + "\n\n" + getResources().getString(R.string.module_type) +  chargingStations.get(i).getModule_type();
 
                 chargingStationList.add(chargingStationOverview);
             }

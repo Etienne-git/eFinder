@@ -1,6 +1,7 @@
 package com.example.efinder.ui.map;
 
 import android.content.Context;
+import android.content.Intent;
 import android.location.Location;
 import android.location.LocationManager;
 import android.location.LocationRequest;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,6 +27,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.efinder.ChargingStation;
 import com.example.efinder.R;
 import com.example.efinder.StationManager;
+import com.example.efinder.ViewChargingStationActivity;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -35,6 +38,8 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.maps.android.SphericalUtil;
 
 import java.util.ArrayList;
@@ -48,7 +53,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback  {
     private LocationRequest locationRequest;
     TextView tvProgressLabel;
     Button searchButton;
-    Button focusButton;
+    FloatingActionButton focusButton;
     Button changeLocationBtn;
     double distance = 10000;
     int distanceMax = 100000;
@@ -58,12 +63,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback  {
     Location homeLocation;
 
 
+
     SupportMapFragment mapFragment;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         mapViewModel =
                 new ViewModelProvider(this).get(MapViewModel.class);
+
 
 
         home = new LatLng(49.873187637553286, 8.641962680299816);
@@ -203,7 +210,27 @@ public class MapFragment extends Fragment implements OnMapReadyCallback  {
         googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
-                Toast.makeText(getActivity(), "Marker Clicked", Toast.LENGTH_SHORT).show();
+
+                int markerIndex = Integer.parseInt(marker.getTag().toString());
+
+                ChargingStation station = StationManager.getStation_list().get(markerIndex);
+                String is_used_str = "";
+                if(station.isIs_used() == true){
+                    is_used_str = getResources().getString(R.string.snackbar_used);
+                }else{
+                    is_used_str = getResources().getString(R.string.snackbar_notused);
+                };
+
+                Snackbar.make(getActivity().findViewById(R.id.mainLayout), is_used_str , Snackbar.LENGTH_LONG).setAction("SHOW DETAILS", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(getActivity().getApplicationContext(), ViewChargingStationActivity.class);
+                        intent.putExtra("id", Integer.toString(markerIndex));
+                        startActivity(intent);
+                    }
+                }).show();
+
+                //Toast.makeText(getActivity(), "Marker Clicked " + marker.getTag(), Toast.LENGTH_SHORT).show();
                 return false;
             }
         });

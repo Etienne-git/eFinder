@@ -49,7 +49,7 @@ public class SearchFragment extends Fragment {
     private FragmentSearchBinding binding;
     private ListView listView;
     private EditText editText;
-    private EditText ortInput ,stromstaerkeInput;
+    private EditText ortInput;
     Spinner statusInput;
     private Button searchBtn;
     public ArrayList<String> chargingStationList;
@@ -85,7 +85,7 @@ public class SearchFragment extends Fragment {
         listView = (ListView) getView().findViewById(R.id.listview);
 
         statusInput = getView().findViewById(R.id.statusInput);
-        stromstaerkeInput = getView().findViewById(R.id.StromstärkeInput);
+
         ortInput = getView().findViewById(R.id.ortInput);
 
 
@@ -103,13 +103,14 @@ public class SearchFragment extends Fragment {
         for(int i = 0; i < chargingStations.size(); i++){
 
             String chargingStationOverview =
-                    chargingStations.get(i).getId()
-                    + " "
+                    "\n"
+                            + getResources().getString(R.string.address)
                     + chargingStations.get(i).getLocation()
-                    + chargingStations.get(i).getStreet()
-                    +  "  "
-                    + chargingStations.get(i).getNumber()
-                    + "\n" + chargingStations.get(i).getOperator();
+                            + " "
+                            + chargingStations.get(i).getStreet()
+                            +  "  "
+                            + chargingStations.get(i).getNumber()
+                            + "\n\n" + getResources().getString(R.string.module_type) + chargingStations.get(i).getModule_type();
 
             chargingStationList.add(chargingStationOverview);
         }
@@ -152,12 +153,12 @@ public class SearchFragment extends Fragment {
                 if(status == "ja"){
                     is_used = true;
                 }
-                String stromstaerke = stromstaerkeInput.getText().toString();
+
 
                 System.out.println("Ausgewählt: " + is_used);
 
 
-                if (ort.matches("") && status.matches("") && stromstaerke.matches("")) {
+                if (ort.matches("") && status.matches("")) {
                     Toast.makeText(getActivity(), "Bitte Auswahl treffen", Toast.LENGTH_SHORT).show();
                 }
 
@@ -188,28 +189,6 @@ public class SearchFragment extends Fragment {
                     resultsNotEmpty = true;
                 }
 
-                if(!stromstaerke.matches("") && resultsNotEmpty == false){
-                    for (int i = 0; i < chargingStations.size(); i++) {
-                        System.out.println("Vergleiche: " + chargingStations.get(i).getLocation().replace(" ", "") + "   " + ort);
-                        if (chargingStations.get(i).getConn_power() == Double.parseDouble(stromstaerke)) {
-                            System.out.println("Fuege Ladesäule hinzu");
-                            System.out.println(chargingStations.get(i).getLocation());
-                            results.add(chargingStations.get(i));
-                        }
-                    }
-                    resultsNotEmpty = true;
-                }
-                else if(!stromstaerke.matches("") && resultsNotEmpty == true){
-                    for (int i = 0; i < results.size(); i++) {
-                        System.out.println("Vergleiche: " + results.get(i).getLocation().replace(" ", "") + "   " + ort);
-                        if (results.get(i).getConn_power() != Double.parseDouble(stromstaerke)) {
-                            System.out.println("Fuege Ladesäule hinzu");
-                            System.out.println(results.get(i).getLocation());
-                            results.remove(i);
-                        }
-                    }
-                    resultsNotEmpty = true;
-                }
 
 
                     if(resultsNotEmpty){
@@ -219,13 +198,14 @@ public class SearchFragment extends Fragment {
 
                     for(int i = 0; i < results.size(); i++){
                         String chargingStationOverview =
-                                results.get(i).getId()
-                                        + " "
+                                "\n"
+                                + getResources().getString(R.string.address)
                                         + results.get(i).getLocation()
+                                                + " "
                                         + results.get(i).getStreet()
                                         +  "  "
                                         + results.get(i).getNumber()
-                                        + "\n" + results.get(i).getOperator();
+                                        + "\n\n" + getResources().getString(R.string.module_type) + results.get(i).getModule_type();
 
                         displayResults.add(chargingStationOverview);
                     }
