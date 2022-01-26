@@ -36,4 +36,6 @@
     <string name="admin_access_denied">Sie müssen Adminrechte besitzen, um diese Funktion nutzen zu können</string>
     <string name="report_repair">Reparatur Melden</string>
     <string name="defect_description">Beschreibung des Defekt</string>
+    <string name="use_station">Nutze diese Station</string>
+    <string name="remove_favorite">Favorit entfernen</string>
 </resources>
