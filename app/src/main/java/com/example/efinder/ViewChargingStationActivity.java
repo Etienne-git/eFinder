@@ -2,6 +2,7 @@ package com.example.efinder;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -38,6 +39,7 @@ public class ViewChargingStationActivity extends AppCompatActivity implements On
     String id;
     Button useStationBtn;
     Boolean isFavorite  = false;
+    int chargingStationID;
     ArrayList<ChargingStation> favoriteStations = new ArrayList<>();
     ArrayList<ChargingStation> defectStations = new ArrayList<>();
     ArrayList<ChargingStation> chargingStations = new ArrayList<>();
@@ -49,7 +51,7 @@ public class ViewChargingStationActivity extends AppCompatActivity implements On
 
         //Get location of chargingStation
         Intent intent = getIntent();
-        int chargingStationID = Integer.valueOf(intent.getStringExtra("id").toString());
+        chargingStationID = Integer.valueOf(intent.getStringExtra("id").toString());
         ArrayList<ChargingStation> chargingStations = StationManager.getStation_list();
         ChargingStation chargingStation = chargingStations.get(chargingStationID);
 
@@ -86,13 +88,6 @@ public class ViewChargingStationActivity extends AppCompatActivity implements On
         getFavoriteStations(favoritesRef);
         getDefectStations(defectRef);
 
-        if(!favoriteStations.isEmpty()) {
-            for (int i = 0; i <= favoriteStations.size(); i++)
-                if (favoriteStations.get(i).getId() == Integer.valueOf(intent.getStringExtra("id").toString())) {
-                    addOrRemoveFavorite.setText(getResources().getString(R.string.remove_favorite));
-                    isFavorite = true;
-                }
-        }
 
         int chargingStationID = Integer.valueOf(intent.getStringExtra("id").toString());
         System.out.print("chargingStationID: " + chargingStationID);
@@ -299,6 +294,13 @@ public class ViewChargingStationActivity extends AppCompatActivity implements On
                 for (DataSnapshot postSnapshot: snapshot.getChildren()) {
                     ChargingStation station = postSnapshot.getValue(ChargingStation.class);
                     favoriteStations.add(station);
+                }
+                if(!favoriteStations.isEmpty()) {
+                    for (int i = 0; i < favoriteStations.size(); i++)
+                        if (favoriteStations.get(i).getId() == chargingStationID) {
+                            addOrRemoveFavorite.setText(getResources().getString(R.string.remove_favorite));
+                            isFavorite = true;
+                        }
                 }
             }
 
