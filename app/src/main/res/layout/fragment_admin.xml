@@ -45,19 +45,19 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/defect_stations_layout"
-        android:gravity="bottom|center"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true"
+        android:gravity="bottom|center">
 
         <Button
             android:id="@+id/btn_report_defect"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="70dp"
-            android:gravity="center"
+            android:layout_marginBottom="100dp"
             android:background="@drawable/rounded_corners"
-            android:textColor="@android:color/white"
+            android:gravity="center"
             android:text="@string/report_repair"
-            android:textSize="16sp"/>
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
     </RelativeLayout>
 
 </RelativeLayout>

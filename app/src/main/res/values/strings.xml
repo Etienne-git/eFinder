@@ -33,7 +33,7 @@
 <string name="firebase_link">https://efinder-1640105181864-default-rtdb.europe-west1.firebasedatabase.app/</string>
 <string name="addFavorite_string">Add to favorites</string>
 <string name="addDefect_string">Report a defect</string>
-<string name="admin_access_denied">You have to be an administrator to use report repairs</string>
+<string name="admin_access_denied">You have to be an administrator to report a repair</string>
 <string name="report_repair">Report Repair</string>
 <string name="defect_description">Describe the repair</string>
     <string name="use_station">use this station</string>
