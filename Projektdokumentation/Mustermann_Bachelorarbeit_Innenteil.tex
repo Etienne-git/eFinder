@@ -1,0 +1,108 @@
+\documentclass[12pt, a4paper, oneside]{article}
+%die Pakete werden hier durch den Include-Befehl separat eingelesen
+\include{Pakete}
+
+\lstset{language=R}
+\lstset{basicstyle=\ttfamily,
+basicstyle=\small}
+\lstset{literate=%
+  {Ö}{{\"O}}1
+  {Ä}{{\"A}}1
+  {Ü}{{\"U}}1
+  {ß}{{\ss}}1
+  {ü}{{\"u}}1
+  {ä}{{\"a}}1
+  {ö}{{\"o}}1
+}
+
+\title{\textbf{Titel der Arbeit}}
+\author{Max Mustermann}
+
+\setlength{\parindent}{0cm} %keine Einrückung
+\linespread{1.5} 
+
+\acsetup{first-style=short}
+\newpage
+
+
+\newpage
+%in alphabetischer Reihenfolge
+
+\newcounter{SeitenzahlSpeicher}
+\begin{document}
+
+\include{Titelseite}
+
+\begin{spacing}{1}
+\pagenumbering{Roman}
+\setcounter{page}{2}
+\tableofcontents
+\end{spacing}
+\newpage
+\begin{spacing}{1}
+\section*{Abbildungsverzeichnis} 
+\addcontentsline{toc}{section}{Abbildungsverzeichnis}
+\renewcommand{\listfigurename}{}
+\listoffigures
+\end{spacing}
+\newpage
+\clearpage
+\setcounter{SeitenzahlSpeicher}{\value{page}}
+\pagenumbering{arabic}
+\newpage
+\pagenumbering{arabic}
+
+\section{Einführung}
+\subsection{Projektbeschreibung}
+
+
+\subsection{Vorgehensweise}
+%Gang der Untersuchung:
+%-Vorgehensweise
+%-Auf Kapitel beziehen
+
+\section{Entwurf}
+\subsection{User Story Mapping}
+\subsection{Prototyping}
+\subsection{Softwaredesign}
+
+\section{Entwicklung}
+\subsection{Navigationsleiste}
+\subsection{Registrierung \& Login}
+\subsubsection{Datenbankintegration}
+\subsection{Map-Screen}
+\subsubsection{Google-Maps Integration}
+\subsection{Such-Screen}
+\subsection{Admin-Screen}
+\subsection{Favoriten-Screen}
+\subsection{Einstellungs-Screen}
+
+\section{Testen}
+\subsection{Funktionale Tests}
+\subsection{Usability-Test}
+\newpage
+
+\section{Fazit}
+
+\section{Literaturverzeichnis}
+\bibliographystyle{gerplain}
+\renewcommand{\refname}{} 
+\bibliography{bibba}
+
+\newpage
+
+
+\appendix %Anhang
+\pagenumbering{arabic}
+\section{Anhang}
+
+\newpage
+
+\section{Eigenständigkeitserklärung}
+``Ich versichere, dass ich die Arbeit selbständig und ohne Benutzung anderer als der angegebenen Hilfsmittel angefertigt habe. Alle Stellen, die wörtlich oder sinngemäß aus Veröffentlichungen oder anderen Quellen entnommen sind, sind als solche kenntlich gemacht. Die schriftliche und die elektronische Form der Arbeit stimmen überein. Ich stimme der Überprüfung der Arbeit durch eine Plagiatssoftware zu.''
+\paragraph{}$~~$\\
+\paragraph{}$~~$\\
+\vspace{50pt} 
+\noindent\rule{5cm}{.4pt}\hfill\rule{5cm}{.4pt}\par 
+\noindent Ort, Datum \hfill Unterschrift 
+\end{document}
