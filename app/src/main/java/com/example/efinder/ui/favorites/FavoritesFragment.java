@@ -23,6 +23,7 @@ import com.example.efinder.R;
 import com.example.efinder.StationManager;
 import com.example.efinder.ViewChargingStationActivity;
 import com.example.efinder.databinding.FragmentFavoritesBinding;
+import com.example.efinder.ui.search.SearchFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -79,17 +80,19 @@ public class FavoritesFragment extends Fragment {
             //Create Array for ListView
             for (int i = 0; i < chargingStations.size(); i++) {
 
-                String chargingStationOverview =
-                        "\n"
-                        + getResources().getString(R.string.address)
-                        + chargingStations.get(i).getLocation()
-                                + " "
-                                + chargingStations.get(i).getStreet()
-                                +  "  "
-                                + chargingStations.get(i).getNumber()
-                                + "\n\n" + getResources().getString(R.string.module_type) +  chargingStations.get(i).getModule_type();
 
-                chargingStationList.add(chargingStationOverview);
+                    String chargingStationOverview =
+                            "\n"
+                                    + getResources().getString(R.string.address)
+                                    + chargingStations.get(i).getLocation()
+                                    + " "
+                                    + chargingStations.get(i).getStreet()
+                                    + "  "
+                                    + chargingStations.get(i).getNumber()
+                                    + "\n\n" + getResources().getString(R.string.module_type) + chargingStations.get(i).getModule_type();
+
+                    chargingStationList.add(chargingStationOverview);
+
             }
 
             ArrayAdapter arrayAdapter = new ArrayAdapter(getActivity(), R.layout.custom_text_view, chargingStationList);
@@ -99,8 +102,11 @@ public class FavoritesFragment extends Fragment {
             favorite_listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
                     Intent intent = new Intent(getActivity().getApplicationContext(), ViewChargingStationActivity.class);
-                    intent.putExtra("id", chargingStationList.get(position).split(" ")[0]);
+                    //intent.putExtra("id", chargingStationList.get(position).split(" ")[0]);
+                    intent.putExtra("id", Integer.toString(position));
+                    intent.putExtra("role","favorites");
                     startActivity(intent);
                 }
             });
@@ -114,4 +120,16 @@ public class FavoritesFragment extends Fragment {
         super.onDestroyView();
         binding = null;
     }
+
+    public ArrayList<ChargingStation> getChargingStations() {
+        return this.chargingStations;
+    }
+
+    private static FavoritesFragment instance = null;
+
+    public static FavoritesFragment getInstance(){
+        return instance;
+    }
+
+
 }

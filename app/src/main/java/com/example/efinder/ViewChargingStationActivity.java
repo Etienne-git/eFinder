@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.efinder.ui.favorites.FavoritesFragment;
 import com.example.efinder.ui.search.SearchFragment;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -82,15 +83,34 @@ public class ViewChargingStationActivity extends AppCompatActivity implements On
         DatabaseReference favoritesRef = database.getReference().child("users").child(id).child("favorites");
         DatabaseReference defectRef = database.getReference().child("defectStations");
 
-        
-        ArrayList<ChargingStation> chargingStations = SearchFragment.getInstance().getChargingStations();
+
         Intent intent = getIntent();
+        String role = intent.getStringExtra("role").toString();
+
+
+        if(role.equals("favorites")){
+            chargingStations = MainActivity.favoriteStations;
+        }else {
+            chargingStations = SearchFragment.getInstance().getChargingStations();
+        }
+
+
+
+
+
+        System.out.println("Alle Favoriten - Debug: ");
+        for(int i = 0; i < chargingStations.size(); i++){
+            System.out.println("Favorite: " + chargingStations.get(i).getLocation());
+        }
+
+
 
         getFavoriteStations(favoritesRef);
         getDefectStations(defectRef);
 
 
-        int chargingStationID = Integer.valueOf(intent.getStringExtra("id").toString());
+        System.out.println("Debug: " + intent.getStringExtra("id"));
+        chargingStationID = (int) Integer.valueOf(intent.getStringExtra("id").toString());
 
         boolean chargerIsUsed = chargingStations.get(chargingStationID).isIs_used();
 
@@ -98,6 +118,15 @@ public class ViewChargingStationActivity extends AppCompatActivity implements On
             useStationBtn.setText(getResources().getString((R.string.leave_station)));
         }else {
             useStationBtn.setText(getResources().getString(R.string.use_this_station));
+        }
+
+
+
+        boolean chargerIsFavorite = chargingStations.get(chargingStationID).isIs_favorite();
+        if(chargerIsFavorite == false){
+            addOrRemoveFavorite.setText(getResources().getString(R.string.addFavorite_string));
+        }else {
+            addOrRemoveFavorite.setText(getResources().getString(R.string.remove_favorite));
         }
 
 
@@ -150,84 +179,6 @@ public class ViewChargingStationActivity extends AppCompatActivity implements On
 
         String installation_date = getResources().getString(R.string.installation_date) + chargingStations.get(chargingStationID).getInstallation_date();
 
-        String plugType1 = getResources().getString(R.string.connection_type)  + "1:   ";
-        String plugType2 = getResources().getString(R.string.connection_type)  + "2:   ";
-        String plugType3 = getResources().getString(R.string.connection_type)  + "3:   ";
-        String plugType4 = getResources().getString(R.string.connection_type)  + "4:   ";
-
-        ArrayList<PlugType> plugTypes1 = chargingStations.get(chargingStationID).getPlug_types_1();
-
-        for(int i = 0; i < plugTypes1.size(); i++){
-            plugType1 = plugType1 + plugTypes1.get(i);
-        }
-
-        ArrayList<PlugType> plugTypes2 = chargingStations.get(chargingStationID).getPlug_types_2();
-
-        for(int i = 0; i < plugTypes2.size(); i++){
-            plugType2 = plugType2 + plugTypes2.get(i);
-        }
-
-        ArrayList<PlugType> plugTypes3 = chargingStations.get(chargingStationID).getPlug_types_3();
-
-        for(int i = 0; i < plugTypes3.size(); i++){
-            plugType3 = plugType3 + plugTypes3.get(i);
-        }
-
-        ArrayList<PlugType> plugTypes4 = chargingStations.get(chargingStationID).getPlug_types_4();
-
-        for(int i = 0; i < plugTypes4.size(); i++){
-            plugType4 = plugType4 + plugTypes4.get(i);
-        }
-
-
-        double power1 = chargingStations.get(chargingStationID).getPower_1();
-        double power2 = chargingStations.get(chargingStationID).getPower_2();
-        double power3 = chargingStations.get(chargingStationID).getPower_3();
-        double power4 = chargingStations.get(chargingStationID).getPower_4();
-
-        String power1_str = getResources().getString(R.string.power)  +  "1:   " + Double.toString(power1);
-        String power2_str = getResources().getString(R.string.power)  +  "2:   " + Double.toString(power2);
-        String power3_str = getResources().getString(R.string.power)  +  "3:   " + Double.toString(power3);
-        String power4_str = getResources().getString(R.string.power)  +  "4:   " + Double.toString(power4);
-
-
-
-
-
-
-        System.out.println("Plugtypes1"  + plugTypes3.toString());
-        if(!plugTypes1.toString().equals("Plugtypes1[null]")){
-            detailsArray.add(plugType1);
-        }
-        if(!plugTypes2.toString().equals("Plugtypes2[null]")){
-            detailsArray.add(plugType2);
-        }
-        if(!plugTypes3.toString().equals("Plugtypes3[null]")){
-            detailsArray.add(plugType3);
-        }
-        if(!plugTypes4.toString().equals("Plugtypes4[null]")){
-            detailsArray.add(plugType4);
-        }
-
-
-
-
-
-
-        if(!power1_str.equals("Stromstärke Anschluss 1: 0.0")){
-            detailsArray.add(power1_str);
-        }
-        if(!power2_str.equals("Stromstärke Anschluss 2: 0.0")){
-            detailsArray.add(power2_str);
-        }
-        System.out.println("power3_str: " + power3_str);
-        if(!power3_str.equals("Stromstärke Anschluss 3: 0.0")){
-            detailsArray.add(power3_str);
-        }
-        if(!power4_str.equals("Stromstärke Anschuss 4: 0.0")){
-            detailsArray.add(power4_str);
-        }
-
 
         detailsArray.add(installation_date);
 
@@ -245,15 +196,35 @@ public class ViewChargingStationActivity extends AppCompatActivity implements On
 
 
                 int chargingStationID = Integer.valueOf(intent.getStringExtra("id").toString());
-                if(!isFavorite) {
-                    favoriteStations.add(chargingStations.get(chargingStationID));
-                    addOrRemoveFavorite.setText(getResources().getString(R.string.remove_favorite));
-                }
-                else {
-                    favoriteStations.remove(chargingStations.get(chargingStationID));
-                    addOrRemoveFavorite.setText(getResources().getString(R.string.addFavorite_string));
-                }
-                favoritesRef.setValue(favoriteStations);
+
+                    if(!favoriteStations.isEmpty() && chargingStationID < favoriteStations.size()) {
+                        if (favoriteStations.get(chargingStationID).isIs_favorite() == false) {
+                            //chargingStations.get(chargingStationID).set_favorite(true);
+                            favoriteStations.get(chargingStationID).set_favorite(true);
+                            favoriteStations.add(chargingStations.get(chargingStationID));
+                            addOrRemoveFavorite.setText(getResources().getString(R.string.remove_favorite));
+                        } else {
+                            System.out.println("Remove: ");
+                            System.out.println(chargingStations.get(chargingStationID).getLocation());
+                            System.out.println(chargingStations.get(chargingStationID).getStreet());
+                            //chargingStations.get(chargingStationID).set_favorite(false);
+                            favoriteStations.get(chargingStationID).set_favorite(false);
+                            //favoriteStations.remove(chargingStations.get(chargingStationID));
+                            favoriteStations.remove(chargingStationID);
+                            System.out.println(favoriteStations.size());
+                            addOrRemoveFavorite.setText(getResources().getString(R.string.addFavorite_string));
+                        }
+                    }else {
+                        System.out.println("Ich bin hier!!!!");
+                        //chargingStations.get(chargingStationID).set_favorite(true);
+                        favoriteStations.add(chargingStations.get(chargingStationID));
+                        chargingStations.get(chargingStationID).set_favorite(true);
+                        //favoriteStations.get(0).set_favorite(true);
+                        addOrRemoveFavorite.setText(getResources().getString(R.string.remove_favorite));
+                    }
+
+
+                    favoritesRef.setValue(favoriteStations);
             }
         });
 
