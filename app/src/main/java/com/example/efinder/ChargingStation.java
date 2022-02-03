@@ -51,6 +51,15 @@ public class ChargingStation {
     /* Usage | maintenance  */
     private boolean is_used;
 
+    private boolean is_favorite = false;
+
+
+
+    public boolean isIs_favorite() { return is_favorite; };
+
+    public void set_favorite(boolean is_favorite) { this.is_favorite = is_favorite; };
+
+
     /* Getters */
     /**
      * Get the stations id.
@@ -292,5 +301,8 @@ public class ChargingStation {
     public void setIs_used(boolean is_used) {
         this.is_used = is_used;
     }
+
+
+
 
 }

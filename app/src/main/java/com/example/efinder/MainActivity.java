@@ -31,8 +31,8 @@ private ActivityMainBinding binding;
 private FirebaseAuth auth = FirebaseAuth.getInstance();
 private String id;
 public boolean adminRights;
-public ArrayList<ChargingStation> favoriteStations = new ArrayList<>();
-public ArrayList<ChargingStation> defectStations = new ArrayList<>();
+public static ArrayList<ChargingStation> favoriteStations = new ArrayList<>();
+public  static ArrayList<ChargingStation> defectStations = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

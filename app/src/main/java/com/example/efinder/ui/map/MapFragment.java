@@ -226,6 +226,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback  {
                     public void onClick(View v) {
                         Intent intent = new Intent(getActivity().getApplicationContext(), ViewChargingStationActivity.class);
                         intent.putExtra("id", Integer.toString(markerIndex));
+                        intent.putExtra("role","search");
                         startActivity(intent);
                     }
                 }).show();

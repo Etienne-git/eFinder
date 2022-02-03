@@ -125,7 +125,7 @@ public class SearchFragment extends Fragment {
                 Intent intent = new Intent(getActivity().getApplicationContext(), ViewChargingStationActivity.class);
                 System.out.println("Position: " + Integer.toString(position));
                 intent.putExtra("id", Integer.toString(position));
-                //intent.putExtra("id", chargingStationList.get(position).split(" ")[0]);
+                intent.putExtra("role", "search");
                 startActivity(intent);
             }
         });
