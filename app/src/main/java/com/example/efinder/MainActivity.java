@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
 private ActivityMainBinding binding;
 private FirebaseAuth auth = FirebaseAuth.getInstance();
 private String id;
+private User currentUser = new User(auth.getCurrentUser().getEmail());
 public boolean adminRights;
 public static ArrayList<ChargingStation> favoriteStations = new ArrayList<>();
 public  static ArrayList<ChargingStation> defectStations = new ArrayList<>();
@@ -69,21 +70,22 @@ public  static ArrayList<ChargingStation> defectStations = new ArrayList<>();
         auth.addAuthStateListener(this);
         id = FirebaseAuth.getInstance().getCurrentUser().getUid();
         final FirebaseDatabase database = FirebaseDatabase.getInstance(getResources().getString(R.string.firebase_link));
-        DatabaseReference currentUserDb = database.getReference().child("users").child(id).child("favorites");
-        DatabaseReference adminRightsDb = database.getReference().child("users").child(id).child("admin");
+        DatabaseReference currentUserFavoritesDb = database.getReference().child("users").child(id).child("favorites");
+        DatabaseReference currentUserAdminRightsDb = database.getReference().child("users").child(id).child("admin");
         DatabaseReference defectStationsDb = database.getReference().child("defectStations");
 
-        adminRightsDb.addValueEventListener(new ValueEventListener() {
+        currentUserAdminRightsDb.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                     adminRights = (boolean) snapshot.getValue();
+                    currentUser.setIsAdmin(adminRights);
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 System.out.println("The read failed");
             }
         });
-        currentUserDb.addValueEventListener(new ValueEventListener() {
+        currentUserFavoritesDb.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 favoriteStations.clear();
@@ -91,6 +93,7 @@ public  static ArrayList<ChargingStation> defectStations = new ArrayList<>();
                     ChargingStation station = postSnapshot.getValue(ChargingStation.class);
                     favoriteStations.add(station);
                 }
+                currentUser.favorites = favoriteStations;
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
@@ -120,5 +123,9 @@ public  static ArrayList<ChargingStation> defectStations = new ArrayList<>();
     }
     public void signOut(){
         auth.signOut();
+    }
+
+    public User getCurrentUser() {
+        return currentUser;
     }
 }

@@ -21,6 +21,7 @@ import com.example.efinder.FavoriteManager;
 import com.example.efinder.MainActivity;
 import com.example.efinder.R;
 import com.example.efinder.StationManager;
+import com.example.efinder.User;
 import com.example.efinder.ViewChargingStationActivity;
 import com.example.efinder.databinding.FragmentFavoritesBinding;
 import com.example.efinder.ui.search.SearchFragment;
@@ -39,6 +40,7 @@ public class FavoritesFragment extends Fragment {
     private FavoritesViewModel favoritesViewModel;
     private ListView favorite_listView;
     private FragmentFavoritesBinding binding;
+    private User currentUser;
     private ArrayList<ChargingStation> chargingStations = new ArrayList<>();
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -46,7 +48,7 @@ public class FavoritesFragment extends Fragment {
         favoritesViewModel =
                 new ViewModelProvider(this).get(FavoritesViewModel.class);
 
-        chargingStations = ((MainActivity)getActivity()).favoriteStations;
+        currentUser = ((MainActivity)getActivity()).getCurrentUser();
 
         binding = FragmentFavoritesBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
@@ -76,20 +78,20 @@ public class FavoritesFragment extends Fragment {
         ArrayList<String> chargingStationList = new ArrayList();
 
 
-        if (chargingStations != null) {
+        if (currentUser.favorites != null) {
             //Create Array for ListView
-            for (int i = 0; i < chargingStations.size(); i++) {
+            for (int i = 0; i < currentUser.favorites.size(); i++) {
 
 
                     String chargingStationOverview =
                             "\n"
                                     + getResources().getString(R.string.address)
-                                    + chargingStations.get(i).getLocation()
+                                    + currentUser.favorites.get(i).getLocation()
                                     + " "
-                                    + chargingStations.get(i).getStreet()
+                                    + currentUser.favorites.get(i).getStreet()
                                     + "  "
-                                    + chargingStations.get(i).getNumber()
-                                    + "\n\n" + getResources().getString(R.string.module_type) + chargingStations.get(i).getModule_type();
+                                    + currentUser.favorites.get(i).getNumber()
+                                    + "\n\n" + getResources().getString(R.string.module_type) + currentUser.favorites.get(i).getModule_type();
 
                     chargingStationList.add(chargingStationOverview);
 
@@ -120,16 +122,5 @@ public class FavoritesFragment extends Fragment {
         super.onDestroyView();
         binding = null;
     }
-
-    public ArrayList<ChargingStation> getChargingStations() {
-        return this.chargingStations;
-    }
-
-    private static FavoritesFragment instance = null;
-
-    public static FavoritesFragment getInstance(){
-        return instance;
-    }
-
 
 }

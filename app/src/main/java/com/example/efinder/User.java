@@ -10,7 +10,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-
+/**
+ * User class that holds all user information
+ */
 public class User {
 
     public User(String mail){
@@ -19,18 +21,37 @@ public class User {
         id = FirebaseAuth.getInstance().getCurrentUser().getUid();
         isAdmin = false;
     }
-
+    /**
+     * getter for email adress
+     * @return the email of the user
+     */
     public String getEmail() {
         return eMail;
     }
-
+    /**
+     * setter for email adress
+     * @param eMail the email to set to
+     */
     public void setEmail(String eMail) { this.eMail = eMail; }
+    /**
+     * setter for admin rights bool
+     * @param a bool value to set to
+     */
+    public void setIsAdmin(boolean a){ this.isAdmin = a;}
+    /**
+     * getter for admin rights
+     * @return true if admin and false if not
+     */
+    public boolean getIsAdmin(){ return isAdmin; }
+    /**
+     * favorite charging stations of the user
+     */
+    public static ArrayList<ChargingStation> favorites = new ArrayList<>();
 
 
 
     private String eMail;
     private boolean isAdmin;
-    private static ArrayList<ChargingStation> favorites = new ArrayList<>();
     private final FirebaseDatabase database;
     private DatabaseReference currentUserDb;
     private String id;

@@ -4,16 +4,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.widget.Adapter;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -28,12 +24,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
-
+/**
+ * fragment where an admin can report a defective station as repaired
+ */
 public class AdminFragment extends Fragment implements RecyclerViewAdapter.RecyclerViewClickListener {
 
     private AdminViewModel adminViewModel;
     private FragmentAdminBinding binding;
-    private Button btnAddDefect;
+    private Button btRemoveDefect;
     private RecyclerView recyclerView;
     private RecyclerViewAdapter adapter;
     private ArrayList<ChargingStation> defectStations = new ArrayList<>();
@@ -41,7 +39,13 @@ public class AdminFragment extends Fragment implements RecyclerViewAdapter.Recyc
     DatabaseReference defectRef;
     private boolean adminRights;
     RelativeLayout deniedAccess;
-
+    /**
+     * initializes the view and firebase instance to save a repaired station. Retrieves admin
+     * rights and defective stations from main activity
+     * @param inflater instantiates xml file into corresponding view object
+     * @param container container for fragment to be inserted
+     * @param savedInstanceState Bundle passed back to onCreate if activity needs to be recreated
+     */
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         adminViewModel =
@@ -50,11 +54,10 @@ public class AdminFragment extends Fragment implements RecyclerViewAdapter.Recyc
         binding = FragmentAdminBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         deniedAccess = root.findViewById(R.id.access_denied);
-        btnAddDefect = root.findViewById(R.id.btn_report_defect);
+        btRemoveDefect = root.findViewById(R.id.btn_report_defect);
         final FirebaseDatabase database = FirebaseDatabase.getInstance(getResources().getString(R.string.firebase_link));
         defectRef = database.getReference().child("defectStations");
 
-        //getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 
         defectStations = ((MainActivity)getActivity()).defectStations;
         adminRights = ((MainActivity)getActivity()).adminRights;
@@ -65,6 +68,11 @@ public class AdminFragment extends Fragment implements RecyclerViewAdapter.Recyc
 
         return root;
     }
+    /**
+     * initializes the recycler view, fills it and initializes the removal button
+     * @param view View of fragment
+     * @param savedInstanceState Bundle passed back to onCreate if activity needs to be recreated
+     */
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -77,6 +85,31 @@ public class AdminFragment extends Fragment implements RecyclerViewAdapter.Recyc
         recyclerView.setLayoutManager(new LinearLayoutManager(getView().getContext()));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
+        fillDefectStationList(defectStationsList);
+        setBtRemoveDefect(defectStationsList);
+    }
+    /**
+     * sets button to a remove a defective station and saves the removal in the database
+     * @param defectStationsList list of defect stations so the station can also be removed here
+     */
+    private void setBtRemoveDefect(ArrayList<String> defectStationsList) {
+        btRemoveDefect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(adminRights) {
+                    defectStations.remove(pos);
+                    defectStationsList.remove(pos);
+                    defectRef.setValue(defectStations);
+                    adapter.notifyItemRemoved(pos);
+                }
+            }
+        });
+    }
+    /**
+     * fills the recycler view list with the defective stations for screen output
+     * @param defectStationsList the list that gets filled for output
+     */
+    private void fillDefectStationList(ArrayList<String> defectStationsList) {
         for (int i = 0; i < defectStations.size(); i++) {
 
             String chargingStationOverview =
@@ -90,17 +123,6 @@ public class AdminFragment extends Fragment implements RecyclerViewAdapter.Recyc
 
             defectStationsList.add(chargingStationOverview);
         }
-        btnAddDefect.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(adminRights) {
-                    defectStations.remove(pos);
-                    defectStationsList.remove(pos);
-                    defectRef.setValue(defectStations);
-                    adapter.notifyItemRemoved(pos);
-                }
-            }
-        });
     }
 
     @Override
@@ -108,6 +130,11 @@ public class AdminFragment extends Fragment implements RecyclerViewAdapter.Recyc
         super.onDestroyView();
         binding = null;
     }
+    /**
+     * sets the position of the clicked item of the recycler view
+     * @param v the current View
+     * @param position the position of the clicked item
+     */
     public void recyclerViewListClicked(View v, int position){
         pos = position;
     }

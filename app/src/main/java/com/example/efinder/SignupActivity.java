@@ -51,21 +51,25 @@ public class SignupActivity extends AppCompatActivity {
         btnResetPassword = (Button) findViewById(R.id.btn_reset_password);
 
         setBtnReset();
-
-        btnSignIn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(SignupActivity.this, LoginActivity.class));
-            }
-        });
+        setBtnLogin();
+        setBtnSignUp();
+    }
+        /**
+         * sets signup Login so onClick user gets redirected to the login screen
+         */
+        private void setBtnLogin() {
+            btnSignIn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(SignupActivity.this, LoginActivity.class));
+                }
+            });
+        }
         /**
          * sets signup button so on click the user input gets forwarded for verification and
          * upload into the database
          */
-        setBtnSignUp();
-    }
-
-    private void setBtnSignUp() {
+        private void setBtnSignUp() {
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

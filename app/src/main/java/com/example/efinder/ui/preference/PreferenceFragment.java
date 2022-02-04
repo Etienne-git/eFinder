@@ -37,7 +37,7 @@ public class PreferenceFragment extends Fragment  {
         id = FirebaseAuth.getInstance().getCurrentUser().getUid();
         final FirebaseDatabase database = FirebaseDatabase.getInstance("https://efinder-1640105181864-default-rtdb.europe-west1.firebasedatabase.app/");
         DatabaseReference currentUserDb = database.getReference().child("users").child(id).child("admin");
-        admin = ((MainActivity)getActivity()).adminRights;
+        admin = ((MainActivity)getActivity()).getCurrentUser().getIsAdmin();
 
         View view = inflater.inflate(R.layout.fragment_preference, container, false);
 
