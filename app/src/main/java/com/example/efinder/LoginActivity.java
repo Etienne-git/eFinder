@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
+
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -16,20 +16,23 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.HashMap;
-import java.util.Map;
-
-
+    /**
+     * Activity that enables an already existing user to login. He gets redirected to the main
+     * activity if is user information was already provided. He can also click on a button to
+     * redirect him to a sign up screen or a screen to reset his password.
+     */
 public class LoginActivity extends AppCompatActivity {
 
     private EditText inputEmail, inputPassword;
     private FirebaseAuth auth;
     private ProgressBar progressBar;
     private Button btnSignup, btnLogin, btnReset;
-
+    /**
+     * calls check if user is already logged and redirects him to the main activity otherwise
+     * sets the view to the right xml and initializes all the buttons
+     * @param savedInstanceState Bundle passed back to onCreate if activity needs to be recreated
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,10 +40,7 @@ public class LoginActivity extends AppCompatActivity {
         //Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
 
-        if (auth.getCurrentUser() != null) {
-            startActivity(new Intent(LoginActivity.this, MainActivity.class));
-            finish();
-        }
+        isLoggedIn();
 
         // set the view now
         setContentView(R.layout.activity_login);
@@ -56,20 +56,16 @@ public class LoginActivity extends AppCompatActivity {
         //Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
 
-        btnSignup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(LoginActivity.this, SignupActivity.class));
-            }
-        });
+        setBtnSignUp();
 
-        btnReset.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(LoginActivity.this, ResetPasswordActivity.class));
-            }
-        });
+        setBtnReset();
 
+        setBtnLogin();
+    }
+    /**
+     * sets login button so on click the user input gets send to the database for authentication
+     */
+    private void setBtnLogin() {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -89,29 +85,71 @@ public class LoginActivity extends AppCompatActivity {
                 progressBar.setVisibility(View.VISIBLE);
 
                 //authenticate user
-                auth.signInWithEmailAndPassword(email, password)
-                        .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                // If sign in fails, display a message to the user. If sign in succeeds
-                                // the auth state listener will be notified and logic to handle the
-                                // signed in user can be handled in the listener.
-                                progressBar.setVisibility(View.GONE);
-                                if (!task.isSuccessful()) {
-                                    // there was an error
-                                    if (password.length() < 6) {
-                                        inputPassword.setError(getString(R.string.minimum_password));
-                                    } else {
-                                        Toast.makeText(LoginActivity.this, getString(R.string.auth_failed), Toast.LENGTH_LONG).show();
-                                    }
-                                } else {
-                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                    startActivity(intent);
-                                    finish();
-                                }
-                            }
-                        });
+                authenticateUser(email, password);
             }
         });
+    }
+    /**
+     * checks if user input matches with a registered password and denies sign in if not
+     * @param email the email from the user input
+     * @param password the password from the user input
+     */
+
+    private void authenticateUser(String email, String password) {
+        auth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        // If sign in fails, display a message to the user. If sign in succeeds
+                        // the auth state listener will be notified and logic to handle the
+                        // signed in user can be handled in the listener.
+                        progressBar.setVisibility(View.GONE);
+                        if (!task.isSuccessful()) {
+                            // there was an error
+                            if (password.length() < 6) {
+                                inputPassword.setError(getString(R.string.minimum_password));
+                            } else {
+                                Toast.makeText(LoginActivity.this, getString(R.string.auth_failed), Toast.LENGTH_LONG).show();
+                            }
+                        } else {
+                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                            startActivity(intent);
+                            finish();
+                        }
+                    }
+                });
+    }
+    /**
+     *sets button reset password so on click the user gets forwarded to the reset password screen
+     */
+    private void setBtnReset() {
+        btnReset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(LoginActivity.this, ResetPasswordActivity.class));
+            }
+        });
+    }
+    /**
+     *sets button so on click the user gets forwarded to the sign up screen
+     */
+
+    private void setBtnSignUp() {
+        btnSignup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(LoginActivity.this, SignupActivity.class));
+            }
+        });
+    }
+
+    /**
+     *checks if the user is logged in, if yes redirects him to the Main Activity
+     */
+    private void isLoggedIn() {
+        if (auth.getCurrentUser() != null) {
+            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+            finish();
+        }
     }
 }
