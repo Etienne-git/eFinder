@@ -11,7 +11,9 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 /**
- * User class that holds all user information
+ * User class that if instantiated holds the information of a specific user
+ * @see SignupActivity
+ * @see MainActivity
  */
 public class User {
 

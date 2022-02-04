@@ -3,7 +3,9 @@ package com.example.efinder.ui.favorites;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-
+/**
+ * favorite fragment ViewModel
+ */
 public class FavoritesViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;

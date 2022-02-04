@@ -2,39 +2,29 @@ package com.example.efinder.ui.favorites;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.efinder.ChargingStation;
-import com.example.efinder.FavoriteManager;
 import com.example.efinder.MainActivity;
 import com.example.efinder.R;
-import com.example.efinder.StationManager;
 import com.example.efinder.User;
 import com.example.efinder.ViewChargingStationActivity;
 import com.example.efinder.databinding.FragmentFavoritesBinding;
-import com.example.efinder.ui.search.SearchFragment;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
-import java.io.Console;
 import java.util.ArrayList;
-
+/**
+ * fragment where a user can see and access his favorite charging stations
+ */
 public class FavoritesFragment extends Fragment {
 
     private FavoritesViewModel favoritesViewModel;
@@ -42,7 +32,12 @@ public class FavoritesFragment extends Fragment {
     private FragmentFavoritesBinding binding;
     private User currentUser;
     private ArrayList<ChargingStation> chargingStations = new ArrayList<>();
-
+    /**
+     * initializes the view and retrieves current User from Main Activity
+     * @param inflater instantiates xml file into corresponding view object
+     * @param container container for fragment to be inserted
+     * @param savedInstanceState Bundle passed back to onCreate if activity needs to be recreated
+     */
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         favoritesViewModel =
@@ -67,7 +62,11 @@ public class FavoritesFragment extends Fragment {
 
         return root;
     }
-
+    /**
+     * initializes the list view, fills it trough set function and initializes the removal button
+     * @param view View of fragment
+     * @param savedInstanceState Bundle passed back to onCreate if activity needs to be recreated
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -78,6 +77,15 @@ public class FavoritesFragment extends Fragment {
         ArrayList<String> chargingStationList = new ArrayList();
 
 
+        setFavoritesList(chargingStationList);
+
+
+    }
+    /**
+     * fills the list with the favorite stations for screen output
+     * @param chargingStationList the list that gets filled for output
+     */
+    private void setFavoritesList(ArrayList<String> chargingStationList) {
         if (currentUser.favorites != null) {
             //Create Array for ListView
             for (int i = 0; i < currentUser.favorites.size(); i++) {
@@ -101,20 +109,26 @@ public class FavoritesFragment extends Fragment {
             favorite_listView.setAdapter(arrayAdapter);
 
             //Show single ChargingStation if User selects it
-            favorite_listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                    Intent intent = new Intent(getActivity().getApplicationContext(), ViewChargingStationActivity.class);
-                    //intent.putExtra("id", chargingStationList.get(position).split(" ")[0]);
-                    intent.putExtra("id", Integer.toString(position));
-                    intent.putExtra("role","favorites");
-                    startActivity(intent);
-                }
-            });
+            setFavoritesOnItemClick();
         }
+    }
+    /**
+     * sets onClick for each element of favorite list view. Redirects to the corresponding view-
+     * ChargingStationActivity.
+     */
 
+    private void setFavoritesOnItemClick() {
+        favorite_listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+                Intent intent = new Intent(getActivity().getApplicationContext(), ViewChargingStationActivity.class);
+                //intent.putExtra("id", chargingStationList.get(position).split(" ")[0]);
+                intent.putExtra("id", Integer.toString(position));
+                intent.putExtra("role","favorites");
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -122,5 +136,4 @@ public class FavoritesFragment extends Fragment {
         super.onDestroyView();
         binding = null;
     }
-
 }
