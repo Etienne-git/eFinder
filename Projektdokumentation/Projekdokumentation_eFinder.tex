@@ -15,8 +15,8 @@ basicstyle=\small}
   {ö}{{\"o}}1
 }
 
-\title{\textbf{Titel der Arbeit}}
-\author{Max Mustermann}
+\title{\textbf{Projektdokumentation eFinder}}
+\author{Lukas Räpple \& Etienne Gotha}
 
 \setlength{\parindent}{0cm} %keine Einrückung
 \linespread{1.5} 
@@ -55,12 +55,12 @@ basicstyle=\small}
 Das vorliegende Projekt entstand im Rahmen des Praktikums zur Veranstaltung Nutzerzentrierte Softwareentwicklung im Wintersemester 2021/2022 an der Hochschule Darmstadt. Im Folgenden wird der Ablauf des Projektes von der Konzeption bis zur Auswertung der Ergebnisse dargestellt.
 
 \subsection{Projektbeschreibung}
-Gegenstand des Projektes ist die Entwicklung einer prototypischen Anwendung, die verschiedenen Nutzern den Zugang zu Informationen und Diensten bezüglich Ladestationen für Elektrofahrzeuge bereitstellt. Als Entwicklungsplattform wird Android Studio mit der Programmiersprache Java verwendet. Die Applikation soll sich dabei gleichermaßen an Fahrer von Elektrofahrzeugen als auch an Servicekräfte, die für den Betrieb der Ladestationen zuständig sind, richten. Ziel des Projektes ist es einen durchgehend auf diese Nutzergruppen ausgerichteten Entwicklungsprozess zu durchlaufen, um ein möglichst hohes Maß an Usability zu erreichen.
+Gegenstand des Projektes ist die Entwicklung einer prototypischen Anwendung, die verschiedenen Nutzern den Zugang zu Informationen und Diensten bezüglich Ladestationen für Elektrofahrzeuge bereitstellt. Als Entwicklungsplattform wird Android Studio mit der Programmiersprache Java verwendet. Die Applikation soll sich dabei gleichermaßen an Fahrer von Elektrofahrzeugen als auch an Servicekräfte/Techniker, die für den Betrieb der Ladestationen zuständig sind, richten. Ziel des Projektes ist es einen durchgehend auf diese Nutzergruppen ausgerichteten Entwicklungsprozess zu durchlaufen, um ein möglichst hohes Maß an Usability zu erreichen.
 
 \subsection{Vorgehensweise}
 Die Durchführung des Projektes und somit auch der vorliegenden Dokumentation orientiert sich am Wasserfallmodel. Das Model kann in die fünf Phasen Analyse, Design, Implementierung, Test und Betrieb unterteilt werden \cite[S. 16 ff.]{SoftwareDevelopmentBestPractices}. Da es sich beim vorliegenden Projekt um die Erstellung eines Prototypen handelt, wird allerdings auf eine Betrachtung der Phase Betrieb verzichtet.\\
 
-Im ersten Schritt des Projektes wird eine heuristische Anforderungsanalyse durchgeführt. Dabei werden begründete Annahmen darüber getroffen, in welchem Kontext die Anwendung vermutlich verwendet wird und welche Intentionen die einzelnen Nutzergruppen mit sich bringen.\\
+Im ersten Schritt des Projektes wird eine heuristische Anforderungsanalyse durchgeführt. Dabei werden begründete Annahmen darüber getroffen, in welchem Kontext die Anwendung vermutlich verwendet wird und welche Intentionen beziehungsweiße Anforderungen die einzelnen Nutzergruppen mit sich bringen.\\
 
 Die darauf folgende Designphase befasst sich zunächst mit den Fragen, wer der durchschnittliche Benutzer ist und welche Ziele er mit der Benutzung der Anwendung verfolgt. Dafür wird einerseits ein durchschnittliches Nutzerprofil in Form einer Persona für jeweils den Elektroautofahrer und den Servicemitarbeiter erstellt. Außerdem werden User Stories zu den beiden Nutzergruppen verfasst, die in Form von kurzen Statements Bedürfnisse darlegen, die der Nutzer mit der Anwendung befriedigen möchte. Auf Basis dieser Ergebnisse wird dann ein Paper Prototyp erstellt, der den Aufbau der einzelnen Ansichten/Screens skizziert.\\
 
@@ -70,11 +70,17 @@ In der letzten Phase des Projektes wird die Anwendung hinsichtlich ihrer Funktio
 
 \section{Analyse}
 \subsection{Heuristische Anforderungsanalyse}
-Betrachten wir zunächst die Umstände, die den Fahrer eines Elektroautos dazu verleiten könnten eine App für Ladestationen zu nutzen. Eine Intention, die als häufiger Kontext für die Verwendung der App angenommen werden kann, ist die Suche nach einer Ladestation in der näheren Umgebung des Nutzer. Eine leere Batterie, eventuell noch in einer unbekannten Umgebung, sind wieder auftrettende Situationen, die eine schnelles Auffinden der nächsten Ladesäule nötig machen.\\
+Betrachten wir zunächst die Umstände, die den Fahrer eines Elektroautos dazu verleiten könnten eine App für Ladestationen zu nutzen. Eine Intention, die als häufiger Kontext für die Verwendung der App angenommen werden kann, ist die Suche nach einer Ladestation in der näheren Umgebung des Nutzer. Eine leere Batterie, eventuell noch in einer unbekannten Umgebung, sind wieder auftretende Situationen, die eine schnelles Auffinden der nächsten Ladesäule nötig machen.\\
 
-Am 01.01.2022 sind im Bundesgebiet 44.486 Ladesäulen gemeldet. Damit ist die Auswahl an Ladestationen in einem Jahr um 10.048 gestiegen. Allerdings ist der Ausbau der Infrastruktur im Vergleich der Bundesländer und vor allem im Vergleich zwischen Stadt und Land ungleich verteilt \cite[]{Ladeinfrastruktur2022}. Diese inkonsistente Netzabdeckung bringt Unsicherheitein für den Fahrer eines Elektroautos mit sich. Somit wird ein potentieller Nutzer von der App außerdem erwarten, dass er sich die Ladesäulendichte in einem weiter entfernten Reiseziel anzeigen lassen kann.\\
+Am 01.01.2022 sind im Bundesgebiet 44.486 Ladesäulen gemeldet. Damit ist die Auswahl an Ladestationen in einem Jahr um 10.048 gestiegen. Allerdings ist der Ausbau der Infrastruktur im Vergleich der Bundesländer und vor allem im Vergleich zwischen Stadt und Land ungleich verteilt \cite[]{Ladeinfrastruktur2022}. Diese inkonsistente Netzabdeckung bringt Unsicherheiten für den Fahrer eines Elektroautos mit sich. Somit wird ein potentieller Nutzer von der App außerdem erwarten, dass er sich die Ladesäulendichte in einem weiter entfernten Reiseziel anzeigen lassen kann.\\
 
-Desweiteren gibt es bei den einzelnen Ladesäulen deutliche Unterschiede. Einerseits hinsichtlich des Preises und andererseits hinsichtlich angebotener Steckertypen und Ladegeschwindigkeit. Aus der wachsenden Anzahl an Optionen eine informierte Entscheidung treffen zu können, ist somit ein weiterer Anreiz für die Verwendung der App.\\
+Desweiteren gibt es bei den einzelnen Ladesäulen deutliche Unterschiede. Einerseits hinsichtlich des Preises und andererseits hinsichtlich angebotener Steckertypen und Ladegeschwindigkeit. Aus der wachsenden Anzahl an Optionen eine informierte Entscheidung treffen zu können, ist somit ein weiterer Anreiz für die Verwendung der App. Die Verschiedenheit der Ladesäulen und ihre relative Entfernung zum Wohnort des Nutzers führen unausweichlich dazu, dass einzelne Ladesäulen regelmäßig aufgesucht werden. Die präferierten Ladesäulen sollten daher vom Nutzer schnell aufgerufen werden können.\\
+
+Eine relevante Information für einen Fahrer ist außerdem die momentane Verfügbarkeit einer Ladesäule. Das Aufladen eines E-Autos dauert deutlich länger als etwa die Tankdauer eines Autos mit Verbrennungsmotor. Der Ladevorgang bei einer herkömmlichen öffentlichen Ladesäulen dauert etwa 2 bis 4 Stunden und bei einer Schnellladesäulen immer noch 0.5 bis 1 Stunde \cite[]{Ladedauer}. Ein Nutzer hat somit ein Interesse daran zu wissen, ob die Ladesäule gerade besetzt ist oder nicht.\\
+
+Servicemitarbeiter/Techniker benötigen die App dagegen im Kontext ihres Anstellungsverhältnisses. Sie sind für die Reparatur und Wartung der Ladesäulen zuständig. Dafür müssen Sie einerseits ebenfalls den Standort einer Ladesäule einsehen können und andererseits wissen, welche Ladesäulen einen Defekt aufweisen. Daher wird ein Techniker erwarten, dass ein Kunde ein Problem mit einer Ladesäule melden kann und eine Liste dieser Meldungen für den Mitarbeiter ersichtlich ist.\\
+
+Während jeder Kunde in der Lage sein sollte defekte Ladesäulen zu melden, sollte eine Reparatur nur von einem dafür dedizierten Mitarbeiter gemeldet werden können. Dafür sollte es einen abgetrennten Bereich in der Anwendung geben, der nur für Anwender mit bestimmten Administratorrechten zugänglich ist.\\
 
 \section{Design}
 \subsection{User Story Mapping}
@@ -85,14 +91,37 @@ Desweiteren gibt es bei den einzelnen Ladesäulen deutliche Unterschiede. Einers
 \subsection{Softwaredesign}
 \subsubsection{Klassen \& Kopplung}
 \subsection{Umsetzung der Screens und Funktionalitäten}
-\subsubsection{Navigationsleiste}
-\subsubsection{Registrierung \& Login}
 \subsubsection{Datenbankintegration}
+Damit die Daten der Applikation persistent gemacht werden können und nicht bei jedem Abschalten der Anwendung verloren gehen, wird eine Datenbank mithilfe der Plattform Firebase angelegt. Dabei wird einerseits die dedizierte Authentifizierungsfunktionalität und andererseits die bereitgestellte NoSQL Realtimedatabase verwendet. Die Datenbank kann über den integrierten Firebase Assistenten in Android Studio unter Verwendung des API-Schlüssels mit der App verbunden werden.Wie die einzelnen Daten darin gespeichert werden, wird im weiteren Verlauf dargestellt.\\
+
+\subsubsection{Registrierung \& Login}
+Beim erstmaligen Öffnen der App wird der Nutzer zum Login-Screen(Abbildung 1) weitergeleitet. Wenn bereits ein Nutzerkonto existiert kann er sich dort mit seiner E-Mail-Adresse und seinem Passwort einloggen.\\
+\newpage
+\begin{figure}
+\includegraphics[width=5cm, height=9cm]{Login-Screen.png}
+\centering
+\label{login}
+\caption{Login-Screen}
+\end{figure}
+Andernfalls kann er sich über den Button mit der Beschriftung " `Not a member yet?'' zum Registrierungs-Screen(Abbildung 2) weiterleiten lassen. Wenn der Nutzer auf den Button mit der Beschriftung "`Login'' drückt, wird zunächst getestet, ob er die nötigen Information in die dafür vorgesehen EditText-Felder eingegeben hat und ob das Passwort eine Länge von mindestens 6 Zeichen aufweist. Ist dies nicht der Fall, wird der Nutzer darauf hingewiesen(Abbildung 3)
+\begin{figure}
+\includegraphics[width=5cm, height=9cm]{Registrierungs-Screen.png}
+\centering
+\label{register}
+\caption{Registrierungs-Screen}
+\end{figure}
+\begin{figure}
+\includegraphics[width=1\textwidth, height=7cm]{SignUp_check.png}
+\centering
+\label{input_check}
+\caption{Überprüfung des User-Input}
+\end{figure}
+\subsubsection{Navigationsleiste}
 \subsubsection{Map-Screen}
 \subsubsection{Such-Screen}
 \subsubsection{Admin-Screen}
 \subsubsection{Favoriten-Screen}
-\subsubsection{Einstellungs-Screen}
+\subsubsection{Einstellungen-Screen}
 
 \section{Test}
 \subsection{Funktionale Tests}
