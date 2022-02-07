@@ -92,18 +92,39 @@ Während jeder Kunde in der Lage sein sollte defekte Ladesäulen zu melden, soll
 \subsubsection{Klassen \& Kopplung}
 \subsection{Umsetzung der Screens und Funktionalitäten}
 \subsubsection{Datenbankintegration}
-Damit die Daten der Applikation persistent gemacht werden können und nicht bei jedem Abschalten der Anwendung verloren gehen, wird eine Datenbank mithilfe der Plattform Firebase angelegt. Dabei wird einerseits die dedizierte Authentifizierungsfunktionalität und andererseits die bereitgestellte NoSQL Realtimedatabase verwendet. Die Datenbank kann über den integrierten Firebase Assistenten in Android Studio unter Verwendung des API-Schlüssels mit der App verbunden werden.Wie die einzelnen Daten darin gespeichert werden, wird im weiteren Verlauf dargestellt.\\
-
-\subsubsection{Registrierung \& Login}
-Beim erstmaligen Öffnen der App wird der Nutzer zum Login-Screen(Abbildung 1) weitergeleitet. Wenn bereits ein Nutzerkonto existiert kann er sich dort mit seiner E-Mail-Adresse und seinem Passwort einloggen.\\
+Damit die Daten der Applikation persistent gemacht werden können und nicht bei jedem Abschalten der Anwendung verloren gehen, wird eine Datenbank mithilfe der Plattform Firebase angelegt. Dabei wird einerseits die dedizierte Authentifizierungsfunktionalität und andererseits die bereitgestellte NoSQL Realtimedatabase verwendet. Die Datenbank kann über den integrierten Firebase Assistenten in Android Studio unter Verwendung des API-Schlüssels mit der App verbunden werden. So kann man sich über den Aufruf der Funktion getInstance eine Referenz zur vorhanden Datenbankinstanz für den Authentifizierungsbereich und der Realtime Database holen(Abbildung 1). Wie die einzelnen Daten darin gespeichert werden, wird im weiteren Verlauf dargestellt.\\
 \newpage
+\begin{figure}
+\includegraphics[width=1\textwidth, height=2cm]{firebase_connect.png}
+\centering
+\label{input_check}
+\caption{Generierung der Datenbankreferenzen}
+\end{figure}
+\subsubsection{Registrierung \& Login}
+Beim erstmaligen Öffnen der App wird der Nutzer zum Login-Screen(Abbildung 2) weitergeleitet.  Beim Aufruf der Login-Activity wird zunächst durch das Aufrufen der Funktion isLoggedIn überprüft, ob bereits eine Authentifizierungsinstanz existiert und wenn ja, wird der Nutzer direkt zur Main-Activity weitergeleitet(Abbildung 3).\\
+
+Wenn bereits ein Konto existiert, aber keine offene Authentifizierungsinstanz gefunden wurde, kann der Nutzer sich mit seiner E-Mail und Passwort anmelden. Nach drücken des Buttons mit dem Label "`Login'' wird die Funktion authenticateUser aufgerufen, die mit Hilfe der von Firebase bereitgestellte Funktion signInWithEmailAndPassword überprüft, ob die eingegebene E-Mail und das eingegebene Passwort korrekt sind(Abbildung 4). Erst dann wird der Nutzer zur Main-Activity weitergeleitet.\\ 
+
 \begin{figure}
 \includegraphics[width=5cm, height=9cm]{Login-Screen.png}
 \centering
 \label{login}
 \caption{Login-Screen}
 \end{figure}
-Andernfalls kann er sich über den Button mit der Beschriftung " `Not a member yet?'' zum Registrierungs-Screen(Abbildung 2) weiterleiten lassen. Wenn der Nutzer auf den Button mit der Beschriftung "`Login'' drückt, wird zunächst getestet, ob er die nötigen Information in die dafür vorgesehen EditText-Felder eingegeben hat und ob das Passwort eine Länge von mindestens 6 Zeichen aufweist. Ist dies nicht der Fall, wird der Nutzer darauf hingewiesen(Abbildung 3)
+\begin{figure}
+\includegraphics[width=1\textwidth, height=3cm]{isLoggedIn.png}
+\centering
+\label{isLoggedIn}
+\caption{Abfrage der existierenden Authentifizierungsinstanz}
+\end{figure}
+\begin{figure}
+\includegraphics[width=1\textwidth, height=7cm]{authentication.png}
+\centering
+\label{authentication}
+\caption{Authentifizierung des Benutzers}
+\end{figure}
+Hat der Nutzer noch keinen Benutzer angelegt, kann er sich über den Button mit der Beschriftung " `Not a member yet?'' zum Registrierungs-Screen(Abbildung 3) weiterleiten lassen. Wenn der Nutzer dort auf den Button mit der Beschriftung "`Login'' drückt, wird zunächst getestet, ob er die nötigen Information in die dafür vorgesehen EditText-Felder eingegeben hat und ob das Passwort eine Länge von mindestens 6 Zeichen aufweist. Ist dies nicht der Fall, wird der Nutzer darauf hingewiesen(Abbildung 4).\\
+
 \begin{figure}
 \includegraphics[width=5cm, height=9cm]{Registrierungs-Screen.png}
 \centering
@@ -115,6 +136,25 @@ Andernfalls kann er sich über den Button mit der Beschriftung " `Not a member y
 \centering
 \label{input_check}
 \caption{Überprüfung des User-Input}
+\end{figure}
+Wurden alle Eingabevoraussetzung vom Nutzer erfüllt, wird durch das Aufrufen der Funktion saveNewUser ein neuer Benutzer in der Datenbank angelegt(Abbildung 5). Die Funktion createUserWithEmailAndPassword wird von Firebase bereitgestellt, um einen neuen Eintrag im Authentifizierungsbereich anzulegen(Abbildung 6). Gleichzeitig wird ein neues User-Objekt erstellt und als Node in der Realtime-Database unter der ID des Benutzers angelegt. Wie das am Ende aussieht, kann in der Abbildung 7 gesehen werden. Nach erfolgreicher Registrierung wird der Nutzer zur MainActivity weitergeleitet. 
+\begin{figure}
+\includegraphics[width=1\textwidth, height=10cm]{save_user.png}
+\centering
+\label{new_user}
+\caption{Anlegen eines neuen Benutzers}
+\end{figure}
+\begin{figure}
+\includegraphics[width=1\textwidth, height=1.5cm]{User_In_Auth.png}
+\centering
+\label{auth_user}
+\caption{Nutzer im Authentifizierungsbereich der Firebase}
+\end{figure}
+\begin{figure}
+\includegraphics[width=0.5\textwidth, height=5.5cm]{User_Rtdb.png}
+\centering
+\label{user_rtdb}
+\caption{Nutzer in der Realtime-Database}
 \end{figure}
 \subsubsection{Navigationsleiste}
 \subsubsection{Map-Screen}
