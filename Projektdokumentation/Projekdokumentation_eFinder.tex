@@ -92,7 +92,7 @@ Während jeder Kunde in der Lage sein sollte defekte Ladesäulen zu melden, soll
 \subsubsection{Klassen \& Kopplung}
 \subsection{Umsetzung der Screens und Funktionalitäten}
 \subsubsection{Datenbankintegration}
-Damit die Daten der Applikation persistent gemacht werden können und nicht bei jedem Abschalten der Anwendung verloren gehen, wird eine Datenbank mithilfe der Plattform Firebase angelegt. Dabei wird einerseits die dedizierte Authentifizierungsfunktionalität und andererseits die bereitgestellte NoSQL Realtimedatabase verwendet. Die Datenbank kann über den integrierten Firebase Assistenten in Android Studio unter Verwendung des API-Schlüssels mit der App verbunden werden. So kann man sich über den Aufruf der Funktion getInstance eine Referenz zur vorhanden Datenbankinstanz für den Authentifizierungsbereich und der Realtime Database holen(Abbildung 1). Wie die einzelnen Daten darin gespeichert werden, wird im weiteren Verlauf dargestellt.\\
+Damit die Daten der Applikation persistent gemacht werden können und nicht bei jedem Abschalten der Anwendung verloren gehen, wird eine Datenbank mithilfe der Plattform Firebase angelegt. Dabei wird einerseits die dedizierte Authentifizierungsfunktionalität und andererseits die bereitgestellte NoSQL-Realtimedatabase verwendet. Die Datenbank kann über den integrierten Firebase Assistenten in Android Studio unter Verwendung des API-Schlüssels mit der App verbunden werden. So kann man sich über den Aufruf der Funktion getInstance eine Referenz zur vorhanden Datenbankinstanz für den Authentifizierungsbereich und der Realtime Database holen(Abbildung 1). Wie die einzelnen Daten darin gespeichert werden, wird im weiteren Verlauf dargestellt.\\
 \newpage
 \begin{figure}
 \includegraphics[width=1\textwidth, height=2cm]{firebase_connect.png}
@@ -157,11 +157,31 @@ Wurden alle Eingabevoraussetzung vom Nutzer erfüllt, wird durch das Aufrufen de
 \caption{Nutzer in der Realtime-Database}
 \end{figure}
 \subsubsection{Navigationsleiste}
+Nachdem der Nutzer zur Main-Activity weitergeleitet wurde, befindet er sich zunächst auf dem Map-Screen. Von dort aus kann er sich mit Hilfe einer Navigationsleiste(Abbildung 10) frei zwischen verschiedenen Screens(Map, Suchen, Admin, Favoriten, Einstellungen) bewegen. Die Navigationsleiste wird in der Main-Activity initialisiert und dort mit den einzelnen Fragmenten, welche die Views für die verschiedenen Screens enthalten, verbunden(Abbildung 11). Das Layout der Navigationsleiste wird über ein von Android bereitgestelltes AppBarConfiguration-Objekt gebildet. Über ein NavController-Objekt wird die Navigation zwischen den Fragmenten durch ein Host-Fragment in der XML der Main-Activity(Abbildung 12) organisiert.
+\begin{figure}
+\includegraphics[width=6cm, height=1cm]{Navigationsleiste.png}
+\centering
+\label{navbar}
+\caption{Navigationsleiste}
+\end{figure}
+\begin{figure}
+\includegraphics[width=1\textwidth, height=5.5cm]{navbar_setup.png}
+\centering
+\label{nav_setup}
+\caption{Initialisierung der Navigationsleiste in der Main-Activity}
+\end{figure}
+\begin{figure}
+\includegraphics[width=0.8\textwidth, height=5.5cm]{Host-Fragment.png}
+\centering
+\label{host_fragment}
+\caption{Host-Fragment in der XML der Main Activity}
+\end{figure}
 \subsubsection{Map-Screen}
-\subsubsection{Such-Screen}
+\subsubsection{Suchen-Screen}
 \subsubsection{Admin-Screen}
 \subsubsection{Favoriten-Screen}
 \subsubsection{Einstellungen-Screen}
+\subsubsection{Mehrsprachigkeit \& Landscape-Mode}
 
 \section{Test}
 \subsection{Funktionale Tests}
