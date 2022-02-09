@@ -103,7 +103,7 @@ Damit die Daten der Applikation persistent gemacht werden können und nicht bei 
 \subsubsection{Registrierung \& Login}
 Beim erstmaligen Öffnen der App wird der Nutzer zum Login-Screen(Abbildung 2) weitergeleitet.  Beim Aufruf der Login-Activity wird zunächst durch das Aufrufen der Funktion isLoggedIn überprüft, ob bereits eine Authentifizierungsinstanz existiert und wenn ja, wird der Nutzer direkt zur Main-Activity weitergeleitet(Abbildung 3).\\
 
-Wenn bereits ein Konto existiert, aber keine offene Authentifizierungsinstanz gefunden wurde, kann der Nutzer sich mit seiner E-Mail und Passwort anmelden. Nach drücken des Buttons mit dem Label "`Login'' wird die Funktion authenticateUser aufgerufen, die mit Hilfe der von Firebase bereitgestellte Funktion signInWithEmailAndPassword überprüft, ob die eingegebene E-Mail und das eingegebene Passwort korrekt sind(Abbildung 4). Erst dann wird der Nutzer zur Main-Activity weitergeleitet.\\ 
+Wenn bereits ein Konto existiert, aber keine offene Authentifizierungsinstanz gefunden wurde, kann der Nutzer sich mit seiner E-Mail und seinem Passwort anmelden. Nach drücken des Buttons mit dem Label "`Login'' wird die Funktion authenticateUser aufgerufen, die mit Hilfe der von Firebase bereitgestellte Funktion signInWithEmailAndPassword überprüft, ob die eingegebene E-Mail und das eingegebene Passwort korrekt sind(Abbildung 4). Erst dann wird der Nutzer zur Main-Activity weitergeleitet.\\ 
 
 \begin{figure}
 \includegraphics[width=5cm, height=9cm]{Login-Screen.png}
@@ -123,7 +123,7 @@ Wenn bereits ein Konto existiert, aber keine offene Authentifizierungsinstanz ge
 \label{authentication}
 \caption{Authentifizierung des Benutzers}
 \end{figure}
-Hat der Nutzer noch keinen Benutzer angelegt, kann er sich über den Button mit der Beschriftung " `Not a member yet?'' zum Registrierungs-Screen(Abbildung 3) weiterleiten lassen. Wenn der Nutzer dort auf den Button mit der Beschriftung "`Login'' drückt, wird zunächst getestet, ob er die nötigen Information in die dafür vorgesehen EditText-Felder eingegeben hat und ob das Passwort eine Länge von mindestens 6 Zeichen aufweist. Ist dies nicht der Fall, wird der Nutzer darauf hingewiesen(Abbildung 4).\\
+Hat der Nutzer noch keinen Benutzer angelegt, kann er sich über den Button mit der Beschriftung " `Not a member yet?'' zum Registrierungs-Screen(Abbildung 5) weiterleiten lassen. Wenn der Nutzer dort auf den Button mit der Beschriftung "`Login'' drückt, wird zunächst getestet, ob er die nötigen Information in die dafür vorgesehenen EditText-Felder eingegeben hat und ob das Passwort eine Länge von mindestens 6 Zeichen aufweist. Ist dies nicht der Fall, wird der Nutzer darauf hingewiesen(Abbildung 6).\\
 
 \begin{figure}
 \includegraphics[width=5cm, height=9cm]{Registrierungs-Screen.png}
@@ -137,7 +137,7 @@ Hat der Nutzer noch keinen Benutzer angelegt, kann er sich über den Button mit 
 \label{input_check}
 \caption{Überprüfung des User-Input}
 \end{figure}
-Wurden alle Eingabevoraussetzung vom Nutzer erfüllt, wird durch das Aufrufen der Funktion saveNewUser ein neuer Benutzer in der Datenbank angelegt(Abbildung 5). Die Funktion createUserWithEmailAndPassword wird von Firebase bereitgestellt, um einen neuen Eintrag im Authentifizierungsbereich anzulegen(Abbildung 6). Gleichzeitig wird ein neues User-Objekt erstellt und als Node in der Realtime-Database unter der ID des Benutzers angelegt. Wie das am Ende aussieht, kann in der Abbildung 7 gesehen werden. Nach erfolgreicher Registrierung wird der Nutzer zur MainActivity weitergeleitet. 
+Wurden alle Eingabevoraussetzung vom Nutzer erfüllt, wird durch das Aufrufen der Funktion saveNewUser ein neuer Benutzer in der Datenbank angelegt(Abbildung 7). Die Funktion createUserWithEmailAndPassword wird von Firebase bereitgestellt, um einen neuen Eintrag im Authentifizierungsbereich anzulegen(Abbildung 8). Gleichzeitig wird ein neues User-Objekt erstellt und als Node in der Realtime-Database unter der ID des Benutzers angelegt. Wie das am Ende aussieht, kann in der Abbildung 9 gesehen werden. Nach erfolgreicher Registrierung wird der Nutzer zur Main-Activity weitergeleitet.\\
 \begin{figure}
 \includegraphics[width=1\textwidth, height=10cm]{save_user.png}
 \centering
@@ -157,7 +157,7 @@ Wurden alle Eingabevoraussetzung vom Nutzer erfüllt, wird durch das Aufrufen de
 \caption{Nutzer in der Realtime-Database}
 \end{figure}
 \subsubsection{Navigationsleiste}
-Nachdem der Nutzer zur Main-Activity weitergeleitet wurde, befindet er sich zunächst auf dem Map-Screen. Von dort aus kann er sich mit Hilfe einer Navigationsleiste(Abbildung 10) frei zwischen verschiedenen Screens(Map, Suchen, Admin, Favoriten, Einstellungen) bewegen. Die Navigationsleiste wird in der Main-Activity initialisiert und dort mit den einzelnen Fragmenten, welche die Views für die verschiedenen Screens enthalten, verbunden(Abbildung 11). Das Layout der Navigationsleiste wird über ein von Android bereitgestelltes AppBarConfiguration-Objekt gebildet. Über ein NavController-Objekt wird die Navigation zwischen den Fragmenten durch ein Host-Fragment in der XML der Main-Activity(Abbildung 12) organisiert.
+Nachdem der Nutzer zur Main-Activity weitergeleitet wurde, befindet er sich zunächst auf dem Map-Screen. Von dort aus kann er sich mit Hilfe einer Navigationsleiste(Abbildung 10) frei zwischen verschiedenen Screens(Map, Suchen, Admin, Favoriten, Einstellungen) bewegen. Die Navigationsleiste wird in der Main-Activity initialisiert und dort mit den einzelnen Fragmenten, welche die Views für die verschiedenen Screens enthalten, verbunden(Abbildung 11). Das Layout der Navigationsleiste wird mit Hilfe der von Android bereitgestellten AppBarConfiguration-Klasse gebildet. Über ein NavController-Objekt wird die Navigation zwischen den Fragmenten durch ein Host-Fragment, definiert in der XML der Main-Activity(Abbildung 12), organisiert.
 \begin{figure}
 \includegraphics[width=6cm, height=1cm]{Navigationsleiste.png}
 \centering
@@ -173,16 +173,40 @@ Nachdem der Nutzer zur Main-Activity weitergeleitet wurde, befindet er sich zun�
 \begin{figure}
 \includegraphics[width=0.8\textwidth, height=5.5cm]{Host-Fragment.png}
 \centering
-\label{host_fragment}
-\caption{Host-Fragment in der XML der Main Activity}
+\caption{Host-Fragment in der XML der Main Activity} \label{host_fragment}
 \end{figure}
 \subsubsection{Map-Screen}
+\subsubsection{Detailansicht einer Ladestation}
 \subsubsection{Suchen-Screen}
-\subsubsection{Admin-Screen}
 \subsubsection{Favoriten-Screen}
+Der Favoriten-Screen(Abbildung 13) benutzt, wie auch der Such-Screen, einen ListView zur Darstellung der Ladestationen. Hier wird eine Ladestation angezeigt, wenn ein Nutzer in der Detailansicht einer Ladestation als Favoriten markiert hat.
+\begin{figure}
+\includegraphics[width=5cm, height=9cm]{Favoriten-Screen.png}
+\centering
+\caption{Favoriten-Screen}\label{favorite_screen}
+\end{figure}
+Die einzelnen Ladestationen werden durch einen Listener auf die Datenbankreferenz der Favoriten des Nutzers aus der Realtime-Database in eine ArrayList geholt(Abbildung 14). Wenn ein neuer Favorit hinzugefügt wird, registiert der Listener das und aktualisiert die Favoritenliste.
+\begin{figure}
+\includegraphics[width=1\textwidth, height=6.5cm]{FavoriteListener.png}
+\centering
+\caption{Listener für die Favoriten des Nutzers}\label{favorite_listener}
+\end{figure}
+\subsubsection{Admin-Screen}
+Im Admin-Screen(Abbildung 15) können Servicemitarbeiter/Techniker die Reperatur einer defekten Ladestation melden. Dafür können die Mitarbeiter durch tippen auf ein Item in der Liste dieses grün markieren und durch drücken des Buttons mit der Beschriftung  "`REPORT REPAIR'' das Item aus der Liste und der Datenbank entfernen. Das ist allerdings nur möglich, wenn im Nutzerprofil die Administratorenrechte gesetzt wurden. Diese indizieren, dass es sich um einen verifizierten Mitarbeiter handelt. Ist dies nicht der Fall, wird ein Hinweis auf die fehlende Berechtigung angezeigt und der Nutzer kann keine der List-Items auswählen. auswählen(Abbildung 16). Die einzelnen Ladestationen werden, ähnlich wie bei den Favoriten(siehe Abbildung \ref{favorite_listener}), durch einen Listener auf die Datenbankreferenz der defekten Stationen aus der Realtime-Database geholt. Im Gegensatz zu den Favoriten wurde die Liste hier allerdings durch einen RecyclerView umgesetzt. 
+\begin{figure}
+\includegraphics[width=5cm, height=9cm]{Admin-Screen.png}
+\centering
+\label{admin}
+\caption{Admin-Screen mit Berechtigung}
+\end{figure}
+\begin{figure}
+\includegraphics[width=5cm, height=9cm]{Admin-denied.png}
+\centering
+\label{admin_denied}
+\caption{Admin-Screen ohne Berechtigungen}
+\end{figure}
 \subsubsection{Einstellungen-Screen}
 \subsubsection{Mehrsprachigkeit \& Landscape-Mode}
-
 \section{Test}
 \subsection{Funktionale Tests}
 \subsection{Usability-Test}
